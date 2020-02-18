@@ -3,6 +3,8 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const dotenv = require("dotenv").config({path: __dirname+"/.env"});
+
 
 var indexRouter = require('./routes/index');
 var billingRouter = require('./routes/billing');
@@ -11,6 +13,7 @@ var ordersRouter = require("./routes/orders");
 var app = express();
 
 // view engine setup
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 

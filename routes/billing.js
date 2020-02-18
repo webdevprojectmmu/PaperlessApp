@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
-const keyPublishable = 'pk_test_PQaKyXWRQzwu3q3ePHE4I9HV00c0Yg1CtO';
-const keySecret = 'sk_test_SbKUV0A6eyLoxT1CkYqvnIhq00smWPV5dE';
+const keyPublishable = process.env.KEYPUBLISHABLE;
+const keySecret = process.env.KEYSECRET;
 const stripe = require('stripe')(keySecret);
 
 

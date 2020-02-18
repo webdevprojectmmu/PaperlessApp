@@ -9,7 +9,7 @@ const dotenv = require("dotenv").config({path: __dirname+"/.env"});
 var indexRouter = require('./routes/index');
 var billingRouter = require('./routes/billing');
 var ordersRouter = require("./routes/orders");
-var waiterRouter = require("./route/waiter");
+var waiterRouter = require("./routes/waiter");
 
 var app = express();
 

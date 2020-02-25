@@ -13,7 +13,7 @@
     </button>
     <div class="collapse navbar-collapse" id="billNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home <%= bal.id %></a></li>
         <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"><%= user.name %></div></li>
       </ul>
       <form action="/users/logout" method="get" class="form-inline my-2 my-md-0 float-right">
@@ -27,7 +27,7 @@
   <div class="container">
     <div class="row">
       <div class="card col-md-12">
-    <h1 class="text-center">Billing: Order ID: <%= orders.id %></h1>
+    <h1 class="text-center">Billing: Order ID: <%= id %></h1>
         <table class="table">
           <thead>
           <tr>
@@ -36,29 +36,22 @@
             <th scope="col">Price</th>
           </tr>
           </thead>
+          <% for(var i = 0; i < orders.length; i++) { %>
+            <% for(j in orders[i].items) { %>
+          <%orders[i].items[j]%>
+
           <tbody>
           <tr>
             <th scope="row">
-                <%= food.food[0].name %>
+                <%= orders[i].items[j].item %>
              </th>
-            <td>1</td>
-            <td>£12.00</td>
+            <td> <%= orders[i].items[j].quantity %></td>
+            <td> <%= orders[i].items[j].price * orders[i].items[j].quantity %></td>
           </tr>
           <tr>
-            <th scope="row">
-              <%= food.food[1].name %>
-            </th>
-            <td>2</td>
-            <td>£24.00</td>
-          </tr>
+            <% }%>
+          <%}%>
 
-          <tr>
-            <th scope="row">
-              <%= food.food[2].name %>
-            </th>
-            <td>3</td>
-            <td>£36.00</td>
-          </tr>
           <tr scope="row">
             <td class="col-xs">
 
@@ -75,7 +68,7 @@
                   <th scope="row">
                     Inc VAT:
                   </th>
-                  <td>£75.65</td>
+                  <td>75.65</td>
                 </tr>
                 <tr>
                   <th scope="row">
@@ -101,8 +94,10 @@
               </table></td>
           </tr>
 
+
           </tbody>
         </table>
+
 
 
         <div class="row">

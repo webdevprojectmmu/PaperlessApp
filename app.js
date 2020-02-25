@@ -3,7 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const Sequelize = require("sequelize")
 const dotenv = require("dotenv").config({path: __dirname+"/.env"});
+const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.PASSWORD+'@'+process.env.URL+':'+process.env.PORT+'/'+process.env.DATABASE+'');
+
+sequelize.authenticate().then(() => {
+      console.log('Connection has been established successfully.');
+    }).catch(err => {
+      console.error('Unable to connect to the database:', err);
+    });
+
+const StaffRole = sequelize.import(__dirname + "/model/staff_role");
+
+StaffRole.create({role_name: "TEST"}).then(name =>{
+    console.log(JSON.stringify(name)+"is a item name now")
+})
+
+
+
+
+
+
+
+// Find all users
 
 
 var indexRouter = require('./routes/index');

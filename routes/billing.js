@@ -5,33 +5,76 @@ const keyPublishable = process.env.KEYPUBLISHABLE;
 const keySecret = process.env.KEYSECRET;
 const stripe = require('stripe')(keySecret);
 
-
-
-
-const orders ={
-        id: 101,
-        item: "Beef fried rice",
-        price: 12.00,
-        quantity: 3
-
+const profile={
+    id: 1001,
+    name: "Ryan Love",
+    role: "Waiter",
+    auth: "STANDARD"
 };
+const menu ={ food:[{
+        name:"Chicken Fried Rice"
+    },
+        {name: "Beef Fried Rice"},
+        {name: "Pork Fried Rice"}]
+}
+
+
+const orders =[{
+        id: 101,
+        items:[{
+            item:"Beef fried rice",
+            quantity: 2,
+            price: 1300,
+        },{
+            item:"Chicken Fried rice",
+            quantity: 3,
+            price: 1200,
+
+        }],
+
+
+},{
+        id: 102,
+        items:[{
+            item:"Beef fried rice",
+            quantity: 2,
+            price: 1300,
+        },{
+            item:"Pork Fried rice",
+            quantity: 3,
+            price: 1300,
+
+        }],
+
+
+    }]
+;
+
+
+
+
+
+
 
 
 var findOrderByID = function (id, callback) {
-    // Perform database query that calls callback when it's done
-    // This is our fake database!
-    if (orders.id != id)
+    for (let i = 0; i < orders.length ; i++) {
+
+
+        if (orders[i].id == id) return callback(null, orders[i].id);
+    }
+
         return callback(new Error(
             'No Order matching '
             + id
             )
         );
-    return callback(null, orders.id);
+
 };
 
 var findOrderByIDMiddleware = function(req, res, next){
     if (req.params.id) {
-        console.log('Username param was detected: ', req.params.id)
+        console.log('Order ID param was detected: ', req.params.id)
         findOrderByID(req.params.id, function(error, id){
             if (error) return next(error);
             req.user = id;
@@ -42,29 +85,13 @@ var findOrderByIDMiddleware = function(req, res, next){
     }
 };
 router.get('/:id', findOrderByIDMiddleware, function(req, res) {
-  const profile={
-    id: 1001,
-    name: "Ryan Love",
-    role: "Waiter",
-    auth: "STANDARD"
-  };
-  const menu ={ food:[{
-      name:"Chicken Fried Rice"
-    },
-      {name: "Beef Fried Rice"},
-      {name: "Pork Fried Rice"}]
-  };
 
-  const orders ={
-    id: 101,
-    item:"Beef fried rice",
-    price: 1234,
-    quantity: 3
-  };
 
   stripe.balance.retrieve(function(err, balance) {
 
-    res.render("index", {orders: orders, user: profile, food: menu, bal:balance, keyPublishable, id:req.params.id});
+      res.render("index", {orders: orders, user: profile, food: menu, bal: balance, keyPublishable, id: req.params.id, arr:[], reducer:(accumulator, currentValue) => accumulator + currentValue});
+
+
   });
 });
 router.post("/charge", (req, res) => {

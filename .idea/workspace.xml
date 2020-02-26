@@ -2,28 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf608e08-7b38-4954-8050-7e02dff78e6b" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/bill_payments.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/billing.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/category.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/complete_orders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/cooked_orders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/index.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/item.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/order.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/order_item.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/orders.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/payment.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/staff.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/model/staff_role.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/views/orders.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/stylesheets/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/public/stylesheets/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/billing.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/billing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,6 +20,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="Web Dev &lt;webdevprojectmmu@gmail.com&gt;" />
         <option value="Ryan Love" />
       </list>
     </option>
@@ -106,8 +87,16 @@
       <updated>1581676602424</updated>
       <workItem from="1581676609299" duration="11967000" />
       <workItem from="1581781007404" duration="41348000" />
-      <workItem from="1582628340374" duration="13684000" />
+      <workItem from="1582628340374" duration="14711000" />
     </task>
+    <task id="LOCAL-00001" summary="Added Object Modeling for each table.&#10;Added exporting for all models for the database.&#10;Errors will occur if the table you are requesting requires a relationship in the database ie anything with a foreign key will not work until relationships have been added but staff_role.js would work due to no foreign key">
+      <created>1582646102998</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1582646102999</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -175,10 +164,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="814" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1581780731414" />
-    <state x="532" y="0" key="CommitChangelistDialog2" timestamp="1582646051017">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1582726166384">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="532" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1582646051017" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1582726166384" />
     <state x="825" y="169" key="FileChooserDialogImpl" timestamp="1582628371663">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -187,30 +176,34 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="1026" y="309" width="390" height="212" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1582024950514" />
-    <state width="745" height="185" key="GridCell.Tab.0.bottom" timestamp="1582646057836">
+    <state width="745" height="185" key="GridCell.Tab.0.bottom" timestamp="1582726108740">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="185" key="GridCell.Tab.0.bottom/0.0.1536.824/0.-1200.1920.1160@0.0.1536.824" timestamp="1582215745949" />
-    <state width="745" height="185" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582646057836" />
-    <state width="745" height="185" key="GridCell.Tab.0.center" timestamp="1582646057835">
+    <state width="745" height="185" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1582726108740" />
+    <state width="745" height="185" key="GridCell.Tab.0.center" timestamp="1582726108740">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="185" key="GridCell.Tab.0.center/0.0.1536.824/0.-1200.1920.1160@0.0.1536.824" timestamp="1582215745949" />
-    <state width="745" height="185" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582646057835" />
-    <state width="745" height="185" key="GridCell.Tab.0.left" timestamp="1582646057835">
+    <state width="745" height="185" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1582726108740" />
+    <state width="745" height="185" key="GridCell.Tab.0.left" timestamp="1582726108740">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="185" key="GridCell.Tab.0.left/0.0.1536.824/0.-1200.1920.1160@0.0.1536.824" timestamp="1582215745948" />
-    <state width="745" height="185" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582646057835" />
-    <state width="745" height="185" key="GridCell.Tab.0.right" timestamp="1582646057836">
+    <state width="745" height="185" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1582726108740" />
+    <state width="745" height="185" key="GridCell.Tab.0.right" timestamp="1582726108740">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1515" height="185" key="GridCell.Tab.0.right/0.0.1536.824/0.-1200.1920.1160@0.0.1536.824" timestamp="1582215745949" />
-    <state width="745" height="185" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582646057836" />
+    <state width="745" height="185" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1582726108740" />
     <state x="555" y="57" key="SettingsEditor" timestamp="1582630598004">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="555" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1582630598004" />
+    <state x="722" y="129" key="Vcs.Push.Dialog.v2" timestamp="1582646111428">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="722" y="129" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1582646111428" />
     <state x="862" y="100" width="581" height="630" maximized="true" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1582634931029">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

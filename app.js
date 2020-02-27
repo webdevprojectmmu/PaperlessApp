@@ -14,6 +14,38 @@ sequelize.authenticate().then(() => {
     });
 
 const StaffRole = sequelize.import(__dirname + "/model/staff_role");
+const Staff = sequelize.import(__dirname + "/model/staff");
+const Payment = sequelize.import(__dirname + "/model/payment");
+const Orders = sequelize.import(__dirname + "/model/orders");
+const OrderItems = sequelize.import(__dirname + "/model/order_item");
+const Order = sequelize.import(__dirname + "/model/order");
+const Item = sequelize.import(__dirname + "/model/item");
+const CookedOrders = sequelize.import(__dirname + "/model/cooked_orders");
+const CompleteOrders = sequelize.import(__dirname + "/model/complete_orders");
+const Category = sequelize.import(__dirname + "/model/category");
+const Billing = sequelize.import(__dirname + "/model/billing");
+const BillPayments = sequelize.import(__dirname + "/model/bill_payments");
+
+// HOW TO CALL THE RELATIONSHIPS FOR THE MODELS
+
+// STAFF_ROLE,PAYMENT,ORDERS,COOKED_ORDERS,COMPLETE_ORDERS & CATEGORY HAVE NO FOREIGN KEYS TO RELATE TO.
+
+// STAFF
+StaffRole.hasOne(Staff, {foreignKey:"staff_id", foreignKeyConstraint: true});
+
+// PAYMENT
+BillPayments.hasOne(Payment,{foreignKey:"payment_id", foreignKeyConstraint: true});
+BillPayments.hasOne(Billing,{foreignKey:"bill_id", foreignKeyConstraint: true});
+
+// ORDERS
+Order.hasOne(Staff,{foreignKey:"staff_id", foreignKeyConstraint: true});
+OrderItems.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true});
+OrderItems.hasOne(Item,{foreignKey:"item_id", foreignKeyConstraint: true});
+
+//CATEGORY
+Category.hasOne(Item, {foreignKey:"category_id", foreignKeyConstraint: true});
+
+
 
 
 

@@ -1,18 +1,16 @@
 module.exports = function(sequelize,DataType) {
 
-    return sequelize.define("order_item",{
+    return sequelize.define("order_items",{
     order_id: {
-        type:sequelize.INTEGER.UNSIGNED,
-        autoIncrement: true,
+        type:DataType.INTEGER.UNSIGNED,
         primaryKey: true
     },
     item_id: {
-        type:sequelize.INTEGER.UNSIGNED,
-        autoIncrement: true,
+        type:DataType.INTEGER.UNSIGNED,
         primaryKey: true
     },
     quantity:{
-        type: sequelize.INTEGER.UNSIGNED
+        type: DataType.INTEGER.UNSIGNED
     }
 },{
         freezeTableName: true,
@@ -20,5 +18,3 @@ module.exports = function(sequelize,DataType) {
     })
 
 }
-
-module.exports = OrderItem

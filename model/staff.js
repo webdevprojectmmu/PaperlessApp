@@ -1,6 +1,7 @@
 
 module.exports = function(sequelize,DataType) {
 
+
     return sequelize.define("staff",{
     staff_id: {
         type: DataType.INTEGER.UNSIGNED,
@@ -22,6 +23,10 @@ module.exports = function(sequelize,DataType) {
 },{
         freezeTableName: true,
         timestamps: false
+
+        
     })
+
+
 
 }

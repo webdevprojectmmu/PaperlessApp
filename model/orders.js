@@ -11,13 +11,13 @@ module.exports = function(sequelize,DataType) {
             type: DataType.INTEGER,
             allowNull: false
         },
-        created_at: {
-            type: DataType.DATE(3),
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3)'),
+        createdAt: {
+            type: DataType.DATE,
+           // defaultValue: sequelize.fn("NOW")
         },
-        updated_at: {
-            type: DataType.DATE(3),
-            defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3) ON UPDATE CURRENT_TIMESTAMP(3)'),
+        updatedAt: {
+            type: DataType.DATE,
+            //defaultValue: sequelize.fn("NOW")
         },
     },{
         freezeTableName: true,

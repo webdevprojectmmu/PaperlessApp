@@ -1,7 +1,7 @@
 
 module.exports = function(sequelize,DataType) {
 
-    return sequelize.define("payments",{
+    return sequelize.define("payment",{
     payment_id:{
         type: DataType.INTEGER.UNSIGNED,
         autoIncrement: true,

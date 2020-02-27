@@ -14,7 +14,7 @@ module.exports = function(sequelize,DataType) {
     },
     order_made:{
         type: DataType.DATE(3),
-        defaultValue: sequelize.literal('CURRENT_TIMESTAMP(3)'),
+        defaultValue: Date.now()
     }
 
 

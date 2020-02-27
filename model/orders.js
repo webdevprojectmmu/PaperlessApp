@@ -13,11 +13,11 @@ module.exports = function(sequelize,DataType) {
         },
         createdAt: {
             type: DataType.DATE,
-           // defaultValue: sequelize.fn("NOW")
+           defaultValue:  Date.now()
         },
         updatedAt: {
             type: DataType.DATE,
-            //defaultValue: sequelize.fn("NOW")
+            defaultValue: Date.now()
         },
     },{
         freezeTableName: true,

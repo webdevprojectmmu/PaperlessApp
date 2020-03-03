@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%=  %></title>
+    <title><%= id %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -13,8 +13,8 @@
     </button>
     <div class="collapse navbar-collapse" id="billNav">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item"><a class="nav-link" href="/">Home <%= bal.id %></a></li>
-        <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"></div></li>
+        <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+        <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"><%= user.name %></div></li>
       </ul>
       <form action="/users/logout" method="get" class="form-inline my-2 my-md-0 float-right">
         <button class="btn btn-light" type="submit">logout</button>
@@ -27,7 +27,7 @@
   <div class="container">
     <div class="row">
       <div class="card col-md-12">
-    <h1 class="text-center">Billing: Order ID: <%= id %></h1>
+    <h1 class="text-center">Billing: Order ID: <%= orders.id %></h1>
         <table class="table">
           <thead>
           <tr>
@@ -36,19 +36,29 @@
             <th scope="col">Price</th>
           </tr>
           </thead>
-
-
           <tbody>
           <tr>
             <th scope="row">
-                <%= order.bill_id%>
+                <%= food.food[0].name %>
              </th>
-            <td> <%= order.time_complete %></td>
-            <td> <%= order.total %></td>
+            <td>1</td>
+            <td>£12.00</td>
           </tr>
           <tr>
+            <th scope="row">
+              <%= food.food[1].name %>
+            </th>
+            <td>2</td>
+            <td>£24.00</td>
+          </tr>
 
-
+          <tr>
+            <th scope="row">
+              <%= food.food[2].name %>
+            </th>
+            <td>3</td>
+            <td>£36.00</td>
+          </tr>
           <tr scope="row">
             <td class="col-xs">
 
@@ -65,7 +75,7 @@
                   <th scope="row">
                     Inc VAT:
                   </th>
-                  <td>75.65</td>
+                  <td>£75.65</td>
                 </tr>
                 <tr>
                   <th scope="row">
@@ -91,10 +101,8 @@
               </table></td>
           </tr>
 
-
           </tbody>
         </table>
-
 
 
         <div class="row">
@@ -107,9 +115,8 @@
         <div class="row mx-auto">
 
           <form action="/billing/charge" method="post">
-            <input type="hidden" value="<%= order.order_id%>" name="orderID">
             <input type="text" value="" id="addDiscounts" name="addDiscounts">
-            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= order.order_id %>" data-amount="<%= order.total %>">
+            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= orders.item %>" data-amount="<%= orders.price * orders.quantity %>">
             </script>
             <script>
               document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';

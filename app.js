@@ -6,10 +6,15 @@ var logger = require('morgan');
 const dotenv = require("dotenv").config({path: __dirname+"/.env"});
 
 
+const Sequelize = require('sequelize');
+const sequelize = new Sequelize('mysql://' + process.env.DBUSERNAME + ':' + process.env.DBPASSWORD + '@' + process.env.DBURL + ':' + process.env.DBPORT + '/' + process.env.DATABASE);
+
 var indexRouter = require('./routes/index');
 var billingRouter = require('./routes/billing');
 var ordersRouter = require("./routes/orders");
 var waiterRouter = require("./routes/waiter");
+
+
 
 var app = express();
 
@@ -44,5 +49,14 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
 
 module.exports = app;

@@ -26,14 +26,19 @@
 </nav>
 
 <div class="container">
+    <form method="GET" action="/orders/search">
+    <input type="search" name="getOrderID">
+    </form>
     <ul>
         <% for(var i = 0; i < orders.length; i++) {%>
    <a href="/billing/<%= orders[i].id%>">
     <div class="card">
         <div class="card-body">
             <div class="h2">Order ID <%= orders[i].id %></div>
-            <div class="">Description <%= orders[i].item %></div>
             <div class="">Table # <%= orders[i].table %></div>
+            <small>Created at: <%= orders[i].createdAt %> </small>
+            <br>
+            <small>Updated at: <%= orders[i].updatedAt %> </small>
         </div>
     </div>
    </a>

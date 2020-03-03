@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= id %></title>
+    <title><%=  %></title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
@@ -14,7 +14,7 @@
     <div class="collapse navbar-collapse" id="billNav">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item"><a class="nav-link" href="/">Home <%= bal.id %></a></li>
-        <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"><%= user.name %></div></li>
+        <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"></div></li>
       </ul>
       <form action="/users/logout" method="get" class="form-inline my-2 my-md-0 float-right">
         <button class="btn btn-light" type="submit">logout</button>
@@ -36,21 +36,18 @@
             <th scope="col">Price</th>
           </tr>
           </thead>
-          <% for(var i = 0; i < orders.length; i++) { %>
-            <% for(j in orders[i].items) { %>
-          <%orders[i].items[j]%>
+
 
           <tbody>
           <tr>
             <th scope="row">
-                <%= orders[i].items[j].item %>
+                <%= order.bill_id%>
              </th>
-            <td> <%= orders[i].items[j].quantity %></td>
-            <td> <%= orders[i].items[j].price * orders[i].items[j].quantity %></td>
+            <td> <%= order.time_complete %></td>
+            <td> <%= order.total %></td>
           </tr>
           <tr>
-            <% }%>
-          <%}%>
+
 
           <tr scope="row">
             <td class="col-xs">
@@ -110,8 +107,9 @@
         <div class="row mx-auto">
 
           <form action="/billing/charge" method="post">
+            <input type="hidden" value="<%= order.order_id%>" name="orderID">
             <input type="text" value="" id="addDiscounts" name="addDiscounts">
-            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= orders.item %>" data-amount="<%= orders.price * orders.quantity %>">
+            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= order.order_id %>" data-amount="<%= order.total %>">
             </script>
             <script>
               document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';

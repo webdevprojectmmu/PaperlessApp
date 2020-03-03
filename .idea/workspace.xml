@@ -2,18 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cd1fbfc-1ad4-4ff4-be22-b1c7b712cc5d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/model/passport.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jsLibraryMappings.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model/staff.js" beforeDir="false" afterPath="$PROJECT_DIR$/model/staff.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/billing.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/billing.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/login.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/orders.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/orders.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +36,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="javascript.nodejs.core.library.configured.version" value="10.16.0" />
     <property name="node.js.detected.package.eslint" value="true" />
@@ -87,6 +77,14 @@
       <workItem from="1581676609299" duration="11967000" />
       <workItem from="1581781007404" duration="23544000" />
     </task>
+    <task id="LOCAL-00001" summary="Merge remote-tracking branch 'refs/remotes/PaperlessApp/v1-Ryan'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;app.js&#10;&#9;model/billing.js&#10;&#9;model/complete_orders.js&#10;&#9;model/cooked_orders.js&#10;&#9;model/order.js&#10;&#9;model/order_item.js&#10;&#9;model/orders.js&#10;&#9;model/payment.js&#10;&#9;model/staff.js&#10;&#9;package-lock.json&#10;&#9;package.json&#10;&#9;routes/billing.js&#10;&#9;routes/orders.js&#10;&#9;views/index.ejs&#10;&#9;views/orders.ejs">
+      <created>1583264801396</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1583264801396</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -115,10 +113,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="814" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1581780731414" />
-    <state x="627" y="0" key="CommitChangelistDialog2" timestamp="1583264775876">
+    <state x="627" y="0" key="CommitChangelistDialog2" timestamp="1583264800789">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="627" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1583264775876" />
+    <state x="627" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1583264800789" />
+    <state x="728" y="158" width="584" height="502" key="DiffContextDialog" timestamp="1583265014073">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="728" y="158" width="584" height="502" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1583265014073" />
     <state x="1026" y="309" width="390" height="212" key="Github.ShareDialog" timestamp="1582024950514">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -151,10 +153,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="555" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581780897856" />
-    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1581940211636">
+    <state x="613" y="123" key="Vcs.Push.Dialog.v2" timestamp="1583264823749">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1581940211636" />
+    <state x="613" y="123" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1583264823749" />
+    <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1583265054175">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1583265054175" />
+    <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1583265014073">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1583265014073" />
+    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1583265014073">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1583265014073" />
     <state x="943" y="87" key="svn.repositoryBrowser" timestamp="1582025408459">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

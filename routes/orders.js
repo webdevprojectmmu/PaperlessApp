@@ -5,119 +5,82 @@ const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DB
 const Orders = sequelize.import("../model/orders");
 const Staff = sequelize.import("../model/staff");
 const staffModel = require("../model/staff")
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
 const passport = require("passport");
 /* GET home page. */
 
-var LocalStrategy = require('passport-local').Strategy;
-passport.use('local-signup', new LocalStrategy(
-
-    {
-        passReqToCallback: true // allows us to pass back the entire request to the callback
-
-    }, function (req, username, password, done) {
-        console.log("Signup for - ", username)
-        var generateHash = function (password) {
-            return bcrypt.hashSync(password, bcrypt.genSaltSync(8), null);
-
-        }
-        Staff.findOne({
-            where: {
-                username: username
-            }
-        }).then(function (user) {
-            console.log(user);
-            if (user) {
-                return done(null, false, {
-                    message: 'That email is already taken'
-                });
-            } else {
-                var userPassword = generateHash(password);
-                var data = {
-                    username: email,
-                    password: userPassword,
-
-                };
-
-                Staff.create(data).then(function (newUser, created) {
-                    if (!newUser) {
-                        return done(null, false);
-                    }
-                    if (newUser) {
-                        return done(null, newUser);
-                    }
-
-                });
-            }
-        });
-    }
-));
 
 
-passport.use("local",new LocalStrategy(
-    {
-        passReqToCallback: true
-    },
+router.post("/register", (req,res) =>{
+    const username = req.body.username;
+    const name = req.body.name;
+    const password = req.body.password
+    const role = req.body.role
 
-    function(req,username, password, done) {
+    bcrypt.hash(password, 8 , (err,hash) => {
+        Staff.create({
+            username: username,
+            name: name,
+            password: hash,
+            role: role
 
-            var validPassword = function(staff,password) {
-                return bcrypt.compareSync(password, staff);
-            };
-            Staff.findOne({
-                where: {
-                    username: username
+        }).then((results,err)=>{
+            if (err) throw err;
+            const staffID = results.staff_id;
+            Staff.findOne({where: {staff_id: staffID}}).then((staffID,err)=>{
+                if (staffID.role === 4){
+                    const staff = staffID.staff_id
+                    req.login(staff, function (err) {
+                        res.redirect("/orders")
+
+                    })
+                } else if(staffID.role === 3) {
+                    const staff = staffID.staff_id
+                    req.login(staff, function (err) {
+                        res.redirect("/admin")
+
+                    })
+                } else if(staffID.role === 2) {
+                    const staff = staffID.staff_id
+                    req.login(staff, function (err) {
+                        res.redirect("/waiter")
+
+                    })
                 }
-            }).then(function (user) {
-                console.log(user)
+                else if(staffID.role === 1) {
+                    const staff = staffID.staff_id
+                    req.login(staff, function (err) {
+                        res.redirect("/kitchen")
 
-                if (!user) {
-                    return done(null, false, {
-                        message: 'NAME'
-                    });
+                    })
                 }
-                if (!validPassword(user.dataValues.password, password)) {
-                    console.log(password)
-                    return done(null, false, {
-                        message: 'PASSWORD'
-                    });
-                }
-                var userinfo = user.get();
-                return done(null, userinfo);
-            }).catch(function (err) {
-                console.log("Error:", err);
-                return done(null, false, {
-                    message: 'WRONG'
+
+
                 });
-            });
+
+        })
+    })
 
 
-
-    }
-));
+});
 
 passport.serializeUser(function(staff, done) {
-    done(null, staff.dataValues.staff_id);
+    console.log(staff)
+    done(null, staff);
 });
 
-passport.deserializeUser(function(id, done) {
-    Staff.findByPk(id).then(staff => {
-        if (staff) {
-            done(null, staff.get());
-        }
-        else {
-            done(staff,null)
-        }
-    });
-});
-router.post("/register",passport.authenticate("local"), (req,res) =>{
-res.redirect("/orders")
+passport.deserializeUser(function(staff, done) {
+    console.log(staff)
+    done(null, staff)
 });
 
 
 
 
-router.post('/login', passport.authenticate('local'),
+router.post('/login',passport.authenticate('local', {
+    successfulRedirect: "/orders",
+    failureRedirect: "/orders/login"
+}),authenticationMiddleware(),
     function(req, res) {
         res.redirect("/orders")
     }
@@ -128,9 +91,18 @@ router.get("/login", function (req,res) {
     res.render("login")
 })
 
-router.get('/',authenticationMiddleware(), function(req, res, next) {
+router.get("/logout", (req,res)=>{
+    req.session.destroy();
+    req.logout();
+    console.log(req.session)
+    res.redirect("/orders/login")
+
+})
+
+router.get('/',authenticationMiddleware(), function(req, res) {
+    console.log(req.isAuthenticated())
+    console.log(req.user)
     Orders.findAll().then(result => {
-        console.log(result)
         res.render("orders", {orders: result})
     })
 
@@ -158,9 +130,22 @@ router.get('*', function(req, res){
 function authenticationMiddleware () {
     return function (req, res, next) {
         if (req.isAuthenticated()) {
-            return next()
+
+
+            Staff.findAll({attributes: ["role"], where: {staff_id: req.user.staff_id}}).then((role) => {
+                console.log(role[0].role)
+                if (role[0].role === 4 || role[0].role === 1 ) {
+                    return next()
+                }
+                else if (role[0].role === 2 || role[0].role === 3 ) {
+                    return res.redirect('/orders/login')
+                }
+
+            })
+
+        } else {
+             return res.redirect('/orders/login')
         }
-        res.redirect('/orders/login')
     }
 }
 

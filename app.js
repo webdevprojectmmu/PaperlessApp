@@ -4,8 +4,11 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const Sequelize = require("sequelize");
+const bcrypt = require("bcryptjs")
 const passport = require("passport");
-const session = require("express-session")
+const LocalStrategy = require('passport-local').Strategy;
+const session = require("express-session");
+const SessionStore = require('express-session-sequelize')(session.Store);
 const dotenv = require("dotenv").config({path: __dirname+"/.env"});
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
 
@@ -14,6 +17,10 @@ sequelize.authenticate().then(() => {
     }).catch(err => {
       console.error('Unable to connect to the database:', err);
     });
+
+const sequelizeSessionStore = new SessionStore({
+    db: sequelize,
+});
 
 const StaffRole = sequelize.import(__dirname + "/model/staff_role");
 const Staff = sequelize.import(__dirname + "/model/staff");
@@ -75,9 +82,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'keyboard cat',resave: true, saveUninitialized:true}));
+app.use(session({ secret: 'keyboard cat',store: sequelizeSessionStore,resave: false, saveUninitialized:false}));
 app.use(passport.initialize());
 app.use(passport.session());
+passport.use(new LocalStrategy(
+    (username, password, done) => {
+    console.log(username);
+    console.log(password);
+    Staff.findAll({attributes:["staff_id","password"], where:{username:username}}).then((results,err) =>{
+        if (err) {done(err)};
+        if(results.length === 0){
+            done(null,false)
+        } else {
+            console.log(results[0].password)
+            const hash = results[0].password;
+            bcrypt.compare(password, hash, (err, data) => {
+                if (data === true) {
+                    return done(null, {staff_id: results[0].staff_id})
+                } else {
+                    return done(null, false)
+                }
+            })
+        }
+    })
+    }
+))
 app.use('/', indexRouter);
 app.use('/orders', ordersRouter);
 app.use('/billing', billingRouter);

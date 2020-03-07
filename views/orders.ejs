@@ -30,15 +30,18 @@
     <input type="search" name="getOrderID">
     </form>
     <ul>
+        <%= console.log(JSON.stringify(orders,null,6))%>
         <% for(var i = 0; i < orders.length; i++) {%>
-   <a href="/billing/<%= orders[i].id%>">
+   <a href="/billing/<%= orders[i].order_id%>">
     <div class="card">
         <div class="card-body">
-            <div class="h2">Order ID <%= orders[i].id %></div>
-            <div class="">Table # <%= orders[i].table %></div>
-            <small>Created at: <%= orders[i].createdAt %> </small>
+            <div class="h2">Order ID <%= orders[i].order_id %></div>
+            <div class="">Table # <%= orders[i].table_num %></div>
+            <h5>£<%=(orders[i].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (orders[i].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></h5>
             <br>
-            <small>Updated at: <%= orders[i].updatedAt %> </small>
+            <small>Created at: <%= orders[i].order_made %> </small>
+
+
         </div>
     </div>
    </a>

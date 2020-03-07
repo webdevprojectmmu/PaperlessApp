@@ -2,9 +2,30 @@ var express = require('express');
 var router = express.Router();
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
-const Orders = sequelize.import("../model/orders");
+const Billing = sequelize.import("../model/billing");
+const OrderItems = sequelize.import("../model/order_item");
+const Order = sequelize.import("../model/order");
 const Staff = sequelize.import("../model/staff");
-const staffModel = require("../model/staff")
+const Item = sequelize.import("../model/item");
+const Payment = sequelize.import("../model/payment");
+const BillPayments = sequelize.import("../model/bill_payments");
+const CookedOrders = sequelize.import("../model/cooked_orders");
+
+Order.hasOne(Staff,{foreignKey:"staff_id", foreignKeyConstraint: true});
+Staff.belongsTo(Order,{foreignKey:"staff_id", foreignKeyConstraint: true})
+
+
+Order.belongsToMany(Item,{foreignKey:"order_id", foreignKeyConstraint: true,through:OrderItems})
+Item.belongsToMany(Order,{foreignKey: "item_id", foreignKeyConstraint: true,through:OrderItems})
+
+Billing.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.belongsTo(Billing,{foreignKey:"order_id", foreignKeyConstraint: true})
+BillPayments.hasMany(Payment,{foreignKey:"payment_id",foreignKeyConstraint: true })
+Payment.belongsToMany(Billing, {foreignKey:"payment_id",foreignKeyConstraint: true, through: BillPayments });
+BillPayments.hasMany(Billing,{foreignKey:"bill_id",foreignKeyConstraint: true })
+Billing.belongsToMany(Payment, {foreignKey:"bill_id",foreignKeyConstraint: true,through:BillPayments});
+CookedOrders.belongsTo(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.hasOne(CookedOrders,{foreignKey:"order_id", foreignKeyConstraint: true})
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 /* GET home page. */
@@ -102,7 +123,7 @@ router.get("/logout", (req,res)=>{
 router.get('/',authenticationMiddleware(), function(req, res) {
     console.log(req.isAuthenticated())
     console.log(req.user)
-    Orders.findAll().then(result => {
+    Order.findAll( {include:{all:true, nested:true}}).then(result => {
         res.render("orders", {orders: result})
     })
 

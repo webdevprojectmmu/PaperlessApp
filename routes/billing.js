@@ -34,7 +34,7 @@ Order.hasOne(CookedOrders,{foreignKey:"order_id", foreignKeyConstraint: true})
 
 
 var findOrderByID = function (id, callback) {
-    Billing.findAll().then(result => {
+    Order.findAll().then(result => {
 
 
         console.log(result.order_id)

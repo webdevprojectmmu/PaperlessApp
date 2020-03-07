@@ -39,14 +39,16 @@
 
 
           <tbody>
+          <%for (let i = 0;i< order[0].items.length; i++){%>
           <tr>
             <th scope="row">
-                <%= order.bill_id%>
+                <%= order[0].items[i].name %>
              </th>
-            <td> <%= order.time_complete %></td>
-            <td> <%= order.total %></td>
+            <td> <%= order[0].items[i].order_items.quantity %></td>
+            <td>£<%= (order[0].items[i].cost*order[0].items[i].order_items.quantity/100).toFixed(2) %></td>
           </tr>
           <tr>
+<%}%>
 
 
           <tr scope="row">
@@ -65,26 +67,21 @@
                   <th scope="row">
                     Inc VAT:
                   </th>
-                  <td>75.65</td>
+                  <td>£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></td>
                 </tr>
                 <tr>
                   <th scope="row">
                     Excl VAT:
                   </th>
-                  <td>£72.00</td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    Tips:
-                  </th>
-                  <td>£5.00</td>
+                  <td>£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},0)/100).toFixed(2)%></td>
                 </tr>
                 <tr>
                   <th scope="row">
                     Total Price:
                   </th>
-                  <td>£80.65</td>
+                  <td id="total">£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></td>
                 </tr>
+
 
                 </tbody>
 
@@ -95,11 +92,11 @@
           </tbody>
         </table>
 
-
+<%=console.log(JSON.stringify(order,null,6))%>
 
         <div class="row">
           <div class="mx-5">
-          <h3>Server: Jane Doe</h3>
+          <h3>Server: <%=order[0].staff.name%></h3>
             <button id="print" onclick="window.print();" class="btn-primary btn-lg">Print</button>
           </div>
         </div>
@@ -108,8 +105,9 @@
 
           <form action="/billing/charge" method="post">
             <input type="hidden" value="<%= order.order_id%>" name="orderID">
+            <input type="hidden" value="<%= order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0)))) %>" name="total">
             <input type="text" value="" id="addDiscounts" name="addDiscounts">
-            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= order.order_id %>" data-amount="<%= order.total %>">
+            <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= order.order_id %>" data-amount="<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0)))))%>">
             </script>
             <script>
               document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';

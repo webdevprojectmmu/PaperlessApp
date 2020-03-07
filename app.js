@@ -40,24 +40,31 @@ const BillPayments = sequelize.import(__dirname + "/model/bill_payments");
 // STAFF_ROLE,PAYMENT,ORDERS,COOKED_ORDERS,COMPLETE_ORDERS & CATEGORY HAVE NO FOREIGN KEYS TO RELATE TO.
 
 // STAFF
-StaffRole.hasOne(Staff, {foreignKey:"staff_id", foreignKeyConstraint: true});
-
+StaffRole.hasMany(Staff, {foreignKey:"role", foreignKeyConstraint: true});
+Staff.belongsTo(StaffRole,{foreignKey:"role", foreignKeyConstraint: true})
 // PAYMENT
 BillPayments.hasOne(Payment,{foreignKey:"payment_id", foreignKeyConstraint: true});
 BillPayments.hasOne(Billing,{foreignKey:"bill_id", foreignKeyConstraint: true});
 
 // ORDERS
 Order.hasOne(Staff,{foreignKey:"staff_id", foreignKeyConstraint: true});
-OrderItems.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true});
-OrderItems.hasOne(Item,{foreignKey:"item_id", foreignKeyConstraint: true});
-
+Staff.belongsTo(Order,{foreignKey:"staff_id", foreignKeyConstraint: true})
+OrderItems.hasMany(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.belongsTo(OrderItems,{foreignKey:"order_id", foreignKeyConstraint: true})
+OrderItems.hasOne(Item,{foreignKey:"item_id", foreignKeyConstraint: true})
+Item.belongsTo(OrderItems,{foreignKey: "item_id", foreignKeyConstraint: true})
+CookedOrders.belongsTo(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.hasOne(CookedOrders,{foreignKey:"order_id", foreignKeyConstraint: true})
 //CATEGORY
-Category.hasOne(Item, {foreignKey:"category_id", foreignKeyConstraint: true});
+Item.hasMany(Category, {foreignKey:"category_id", foreignKeyConstraint: true});
+Category.belongsTo(Item, {foreignKey:"category_id", foreignKeyConstraint: true});
 
+Payment.belongsToMany(Billing, {foreignKey:"payment_id",foreignKeyConstraint: true, through: BillPayments });
+Billing.belongsToMany(Payment, {foreignKey:"bill_id",foreignKeyConstraint: true, through: BillPayments });
 
-
-
-
+OrderItems.findAll({include:{all:true,nested:true}}).then(result =>{
+  // console.log(JSON.stringify(result[0],null,2))
+})
 
 
 

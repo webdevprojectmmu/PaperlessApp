@@ -7,10 +7,29 @@ const stripe = require('stripe')(keySecret);
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
 const Billing = sequelize.import("../model/billing");
+const OrderItems = sequelize.import("../model/order_item");
+const Order = sequelize.import("../model/order");
+const Staff = sequelize.import("../model/staff");
+const Item = sequelize.import("../model/item");
+const Payment = sequelize.import("../model/payment");
+const BillPayments = sequelize.import("../model/bill_payments");
+const CookedOrders = sequelize.import("../model/cooked_orders");
+
+Order.hasOne(Staff,{foreignKey:"staff_id", foreignKeyConstraint: true});
+Staff.belongsTo(Order,{foreignKey:"staff_id", foreignKeyConstraint: true})
 
 
+Order.belongsToMany(Item,{foreignKey:"order_id", foreignKeyConstraint: true,through:OrderItems})
+Item.belongsToMany(Order,{foreignKey: "item_id", foreignKeyConstraint: true,through:OrderItems})
 
-
+Billing.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.belongsTo(Billing,{foreignKey:"order_id", foreignKeyConstraint: true})
+BillPayments.hasMany(Payment,{foreignKey:"payment_id",foreignKeyConstraint: true })
+Payment.belongsToMany(Billing, {foreignKey:"payment_id",foreignKeyConstraint: true, through: BillPayments });
+BillPayments.hasMany(Billing,{foreignKey:"bill_id",foreignKeyConstraint: true })
+Billing.belongsToMany(Payment, {foreignKey:"bill_id",foreignKeyConstraint: true,through:BillPayments});
+CookedOrders.belongsTo(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
+Order.hasOne(CookedOrders,{foreignKey:"order_id", foreignKeyConstraint: true})
 
 
 
@@ -50,7 +69,10 @@ router.get('/:id', findOrderByIDMiddleware, function(req, res) {
 
   stripe.balance.retrieve(function(err, balance) {
 
-      Billing.findOne({where:{order_id: req.params.id}}).then(result => {
+      Order.findAll({where:{order_id: req.params.id}, include:{all:true, nested:true}}).then(result => {
+          //Billing.create({total: result.items.cost*result.items.order_items.quantity})
+
+
           res.render("index", {
               order: result,
               bal: balance,
@@ -62,8 +84,8 @@ router.get('/:id', findOrderByIDMiddleware, function(req, res) {
   });
 });
 router.post("/charge", (req, res) => {
-    Billing.findOne({where:{order_id: req.body.orderID}}).then(result => {
-        let amount = result.total;
+    Order.findAll({where:{order_id: req.body.orderID}, include:{all:true, nested:true}}).then(() => {
+        let amount = req.body.total
         if (req.body.addDiscounts == "6UsM3uUv") {
             stripe.customers.create({
                 email: req.body.stripeEmail,
@@ -87,7 +109,6 @@ router.post("/charge", (req, res) => {
                     }))
                 .then(charge => res.render("charge", {charge: charge}))
         } else {
-            amount = amount.toFixed() * 100;
             stripe.customers.create({
                 email: req.body.stripeEmail,
                 source: req.body.stripeToken
@@ -96,15 +117,11 @@ router.post("/charge", (req, res) => {
                     amount,
                     currency: "gbp",
                     customer: customer.id
-                })).then(charge => {
-                    Billing.create({
-                        order_id: req.body.orderID,
-                        total: charge.amount
-                    }).then((total)=> {
+                })).then((total)=> {
                         console.log(total)
                         res.render("charge", {charge: total})
                     })
-            })
+
 
         }
     })

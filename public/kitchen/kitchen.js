@@ -21,6 +21,7 @@ let orders = [];
 // variables to add elements to objects specifically for the client
 let orderClient = { time_elapsed: 0 };
 let itemClient = { completed: 0 };
+let warningTime = 1200; //20 minute warning
 
 function pushOrder(data) {
 	console.log("pushOrder: " + JSON.stringify(data));
@@ -88,5 +89,26 @@ function prettyTime(timestamp) {
 }
 
 $(document).ready(function() {
-	let mainElem = $("main").get(0);
+	//let mainElem = $("main").get(0);
+
+	let timer = setInterval(function() {
+		let pTime = prettyTime(Date.now());
+		$("#clock").get(0).innerHTML = pTime;
+
+		//perform actions and binds for each order
+		orders.forEach(function(order, index, orders) {
+			let oid = "" + order.key + order.table;
+			//resolve elapsed time for each order
+			order.time_elapsed = Date.now().valueOf() - order.time;
+			if(order.time_elapsed >= warningTime * 1000) $("#" + oid).toggleClass("elapsed");
+			$("#" + oid + " .time_elapse").get(0).innerHTML = "Elapsed: " + prettyTime(order.time_elapsed);
+
+			$("input[name='co" + oid + "']").unbind().on('click', function() {
+				console.log("removing " + orders[index]);
+				orders.splice(index, 1);
+				renderMain(orders);
+			});
+		});
+		
+	}, 500);
 });

@@ -12,8 +12,13 @@
 
 	<script>
 		function addItem(item) {
-			console.log(item.id);
+			console.log(item.item_id);
 			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td><td></td><td>1</td></tr>");
+		}
+
+		function submit() {
+			console.log("submit");
+			console.log($("tr:nth-child(3) > td")[0].innerHTML);
 		}
 	</script>
 

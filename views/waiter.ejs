@@ -11,8 +11,9 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	<script>
-		function addItem() {
-			console.log("click");
+		function addItem(item) {
+			console.log(item.id);
+			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td><td></td><td>1</td></tr>");
 		}
 	</script>
 
@@ -69,7 +70,7 @@
 			<!-- Search form -->
 			<input class="form-control" type="text" placeholder="Search" aria-label="Search">
 			<% for(var i = 0; i < item.length; i++) {%>
-				<%= item[i].name + " " + item[i].cost %> <br>
+				<div class="item" onclick="addItem(<%= JSON.stringify(item[i]) %>)"><%= item[i].name + " £" + (item[i].cost / 100).toFixed(2) %></div>
 			<%}%>
 		</div>
 		<div class="modal-footer">

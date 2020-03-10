@@ -22,7 +22,7 @@
 <body>
 
 <nav>
-	<h1><%= title %></h1>
+	<h1>Waiter</h1>
 	<p>Hi name</p>
 </nav>
 
@@ -66,7 +66,9 @@
 		  </button>
 		</div>
 		<div class="modal-body">
-		  ...
+			<% for(var i = 0; i < item.length; i++) {%>
+				<%= item[i].name %> <br>
+			<%}%>
 		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

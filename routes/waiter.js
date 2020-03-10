@@ -6,10 +6,9 @@ const Item = sequelize.import("../model/item");
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-    res.render('waiter',{title: "Hi Waiter"});
-    Item.findAll().then(item => {
-        console.log(item);
-      })
+  Item.findAll( {include:{all:true, nested:true}}).then(result => {
+    res.render("waiter", {item: result})
+  })
 });
 
 module.exports = router;

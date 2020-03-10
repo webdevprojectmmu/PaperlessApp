@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
+const Op  = Sequelize.Op;
 const Billing = sequelize.import("../model/billing");
 const OrderItems = sequelize.import("../model/order_item");
 const Order = sequelize.import("../model/order");
@@ -98,10 +99,7 @@ passport.deserializeUser(function(staff, done) {
 
 
 
-router.post('/login',passport.authenticate('local', {
-    successfulRedirect: "/orders",
-    failureRedirect: "/orders/login"
-}),authenticationMiddleware(),
+router.post('/login',passport.authenticate('local'),authenticationMiddleware(),
     function(req, res) {
         res.redirect("/orders")
     }
@@ -129,14 +127,14 @@ router.get('/',authenticationMiddleware(), function(req, res) {
 
 });
 
-router.get("/search", function (req,res) {
-    Orders.findOne({where: {id: req.body}}).then(result => {
-        console.log(result);
-        console.log(req.body.getOrderID)
-        res.render("orders", {orders: result})
-    })
+router.get('/search', (req, res) => {
+    let { q } = req.query;
+    q = q.toLowerCase();
 
-})
+    Order.findAll({ where: { table_num: { [Op.like]: '%' + q + '%' } },include:{all:true, nested:true} })
+        .then(orders => {console.log(orders); res.render('search', { orders })})
+        .catch(err => console.log(err));
+});
 
 router.get('*', function(req, res){
 

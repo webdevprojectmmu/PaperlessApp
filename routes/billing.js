@@ -83,8 +83,14 @@ router.get('/:id', findOrderByIDMiddleware, function(req, res) {
 
   });
 });
-router.post("/charge", (req, res) => {
-    Order.findAll({where:{order_id: req.body.orderID}, include:{all:true, nested:true}}).then(() => {
+router.post("/charge/:id", (req, res) => {
+    Order.findAll({where:{order_id: req.params.id},include:{all:true, nested:true}}).then((data) => {
+        console.log(JSON.stringify(data[0].order_id,null,6))
+        Billing.create({
+            order_id: data[0].order_id,
+            time_complete: Date.now(),
+            total: req.body.total
+        }).then(d=> console.log("hello "+d))
         let amount = req.body.total
         if (req.body.addDiscounts == "6UsM3uUv") {
             stripe.customers.create({
@@ -97,7 +103,6 @@ router.post("/charge", (req, res) => {
                         function (err, coupon) {
                             let percentage = (coupon.percent_off / 100) * amount;
                             amount = amount - percentage;
-                            amount = amount.toFixed() * 100
 
                         }
                     ))
@@ -107,7 +112,16 @@ router.post("/charge", (req, res) => {
                         currency: "gbp",
                         customer: customer.id
                     }))
-                .then(charge => res.render("charge", {charge: charge}))
+                .then((total)=> {
+                    Payment.create({
+                        amount: total.amount,
+                        discount: total.discount
+                    }).then(result=>{
+                        console.log(result.amount)
+                        res.render("charge", {charge: result})
+                    })
+
+                })
         } else {
             stripe.customers.create({
                 email: req.body.stripeEmail,
@@ -118,8 +132,14 @@ router.post("/charge", (req, res) => {
                     currency: "gbp",
                     customer: customer.id
                 })).then((total)=> {
-                        console.log(total)
-                        res.render("charge", {charge: total})
+                    Payment.create({
+                            amount: total.amount,
+                            discount: 0
+                        }).then(result=>{
+                        console.log(result.amount)
+                        res.render("charge", {charge: result})
+                    })
+
                     })
 
 

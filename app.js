@@ -76,6 +76,9 @@ OrderItems.findAll({include:{all:true,nested:true}}).then(result =>{
 var indexRouter = require('./routes/index');
 var billingRouter = require('./routes/billing');
 var ordersRouter = require("./routes/orders");
+var kitchenRouter = require("./routes/kitchen");
+var adminRouter = require("./routes/admin");
+var waiterRouter = require("./routes/waiter")
 
 var app = express();
 
@@ -117,6 +120,10 @@ passport.use(new LocalStrategy(
 app.use('/', indexRouter);
 app.use('/orders', ordersRouter);
 app.use('/billing', billingRouter);
+app.use("/admin", adminRouter);
+app.use("/kitchen", kitchenRouter);
+app.use("/waiter", waiterRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

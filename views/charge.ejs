@@ -1,1 +1,14 @@
 <%= charge.amount %>
+
+<%var count = 6;%>
+<%function redirectClient(){var numTi = document.getElementById("numTi");if(count > 0){%>
+<%count--;%>
+<% numTi.innerHTML = "Redirect in "+count+" seconds.";%>
+<%setTimeout("redirectClient()", 1000);%>
+<%}else{%>
+<%window.location.href = "/orders";%>
+<%}}%>
+<span id="numTi">
+        <script type="text/javascript">redirectClient();
+</script>
+</span>);%>

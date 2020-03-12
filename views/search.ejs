@@ -1,58 +1,12 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Orders</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-</head>
-<body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#billNav" aria-controls="billNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="billNav">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
-            <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"></div></li>
-        </ul>
-        <form action="/users/logout" method="get" class="form-inline my-2 my-md-0 float-right">
-            <button class="btn btn-light" type="submit">logout</button>
-        </form>
+<%- include("particals/head")%>
+    <body>
+        <%- include('particals/nav')%>
+            <div class="container">
+                <%- include("particals/search")%>
+                <%- include('particals/order')%>
 
-
-    </div>
-
-</nav>
-
-<div class="container">
-    <form action="/orders/search" class="search-form">
-        <i class="fas fa-search"></i>
-        <input type="search" name="q" class="form-control">
-        <input type="submit" value="Search" class="btn btn-primary">
-    </form>
-    <ul>
-        <%= console.log(JSON.stringify(orders,null,6))%>
-        <% for(var i = 0; i < orders.length; i++) {%>
-            <a href="/billing/<%= orders[i].order_id%>">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="h2">Order ID <%= orders[i].order_id %></div>
-                        <div class="">Table # <%= orders[i].table_num %></div>
-                        <h5>£<%=(orders[i].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (orders[i].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></h5>
-                        <br>
-                        <small>Created at: <%= orders[i].order_made %> </small>
-
-
-                    </div>
-                </div>
-            </a>
-        <%}%>
-    </ul>
-
-
-</div>
-
-</body>
-
+            </div>
+    </body>
 </html>

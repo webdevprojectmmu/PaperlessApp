@@ -107,7 +107,7 @@ router.post('/login',passport.authenticate('local'),authenticationMiddleware(),
 
 router.get("/login", function (req,res) {
 
-    res.render("login")
+    res.render("login",{title: "Login"})
 })
 
 router.get("/logout", (req,res)=>{
@@ -122,7 +122,7 @@ router.get('/',authenticationMiddleware(), function(req, res) {
     console.log(req.isAuthenticated())
     console.log(req.user)
     Order.findAll( {include:{all:true, nested:true}}).then(result => {
-        res.render("orders", {orders: result})
+        res.render("orders", {orders: result, title:"Orders"})
     })
 
 });
@@ -137,13 +137,23 @@ router.get('/search', (req, res) => {
 });
 
 router.get('*', function(req, res){
-
-
+    var count = 6;function countDown(){var timer = document.getElementById("timer");if(count > 0){count--;timer.innerHTML = "This page will redirect in "+count+" seconds.";setTimeout("countDown()", 1000);}else{window.location.href = "/orders";}}
 
     res.send('Sorry, this is an invalid URL.' + req.originalUrl+ '<br>' +
-        'Press this link to return to parent directory <a href="/orders">Orders</a> or wait for redirect');
+        'Press this link to return to parent directory <a href="/orders">Orders</a> or wait for redirect<script>' +
+        'var count = 6;' +
+        'function redirectClient(){' +
+            'var numTi = document.getElementById("numTi");' +
+            'if(count > 0){' +
+                'count--;' +
+                'numTi.innerHTML = "Redirect in "+count+" seconds.";' +
+                'setTimeout("redirectClient()", 1000);' +
+            '}else{' +
+                'window.location.href = "/orders";' +
+            '}' +
+        '}' +
+        '</script> <span id="numTi"><script type="text/javascript">redirectClient();</script></span>');
 });
-
 
 
 function authenticationMiddleware () {
@@ -153,17 +163,25 @@ function authenticationMiddleware () {
 
             Staff.findAll({attributes: ["role"], where: {staff_id: req.user.staff_id}}).then((role) => {
                 console.log(role[0].role)
-                if (role[0].role === 4 || role[0].role === 1 ) {
-                    return next()
+                if (role[0].role === 1 ) {
+                    return res.redirect('/admin')
                 }
-                else if (role[0].role === 2 || role[0].role === 3 ) {
-                    return res.redirect('/orders/login')
+                else if (role[0].role === 2) {
+                    return res.redirect('/kitchen')
+                }
+                else if (role[0].role === 3) {
+                    return res.redirect('/waiter')
+                }
+                else if (role[0].role === 4) {
+
+                    return next()
+
                 }
 
             })
 
         } else {
-             return res.redirect('/orders/login')
+             res.redirect('/orders/login')
         }
     }
 }

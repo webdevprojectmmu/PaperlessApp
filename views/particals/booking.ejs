@@ -1,0 +1,100 @@
+<div class="row">
+    <div class="card col-md-12">
+        <h1 class="text-center">Billing: Order ID: <%= id %></h1>
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Item</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+            </tr>
+            </thead>
+
+
+            <tbody>
+            <%for (let i = 0;i< order[0].items.length; i++){%>
+                <tr>
+                    <th scope="row">
+                        <%= order[0].items[i].name %>
+                    </th>
+                    <td> <%= order[0].items[i].order_items.quantity %></td>
+                    <td>£<%= (order[0].items[i].cost*order[0].items[i].order_items.quantity/100).toFixed(2) %></td>
+                </tr>
+            <tr>
+                <%}%>
+
+
+            <tr scope="row">
+                <td class="col-xs">
+
+                    <div class="col-xs-2">
+                        <button class="btn-lg btn-primary"  onclick="display();" id="addButton">Add Discounts</button>
+                        <input class="form-control input-sm " onkeyup="document.getElementById('addDiscounts').value = this.value " type="text" id="addDiscount" name="addDiscount"/>
+                    </div>
+
+                </td>
+                <td></td>
+                <td> <table width="100%">
+                        <tbody>
+                        <tr>
+                            <th scope="row">
+                                Inc VAT:
+                            </th>
+                            <td>£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Excl VAT:
+                            </th>
+                            <td>£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},0)/100).toFixed(2)%></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">
+                                Total Price:
+                            </th>
+                            <td id="total">£<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0))))/100).toFixed(2)%></td>
+                        </tr>
+
+
+                        </tbody>
+
+                    </table></td>
+            </tr>
+
+
+            </tbody>
+        </table>
+
+        <%=console.log(JSON.stringify(order,null,6))%>
+
+        <div class="row">
+            <div class="mx-5">
+                <h3>Server: <%=order[0].staff.name%></h3>
+                <button id="print" onclick="window.print();" class="btn-primary btn-lg">Print</button>
+            </div>
+        </div>
+
+        <div class="row mx-auto">
+
+            <form action="/billing/charge/<%=order[0].order_id%>" method="post">
+                <input type="hidden" value="<%= order.order_id%>" name="orderID">
+                <input type="hidden" value="<%= order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0)))) %>" name="total">
+                <input type="text" value="" id="addDiscounts" name="addDiscounts">
+                <script class="stripe-button" src="//checkout.stripe.com/v2/checkout.js" data-locale="auto" data-key=<%= keyPublishable %> data-description="<%= order.order_id %>" data-amount="<%=(order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0)))))%>">
+                </script>
+                <script>
+                    document.getElementsByClassName("stripe-button-el")[0].style.display = 'none';
+                    if (document.getElementById("addDiscount").value === "6UsM3uUv"){
+                        document.getElementById("addDiscounts").value = "6UsM3uUv"
+                    }
+                </script>
+                <button class="btn-lg btn-primary" id="payNow" >Pay Now</button>
+            </form>
+        </div>
+        <br>
+
+
+
+
+    </div>
+</div>

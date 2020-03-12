@@ -65,7 +65,7 @@ var findOrderByIDMiddleware = function(req, res, next){
         return next();
     }
 };
-router.get('/:id', findOrderByIDMiddleware, function(req, res) {
+router.get('/:id',authenticationMiddleware(), findOrderByIDMiddleware, function(req, res) {
 
   stripe.balance.retrieve(function(err, balance) {
 
@@ -77,7 +77,8 @@ router.get('/:id', findOrderByIDMiddleware, function(req, res) {
               order: result,
               bal: balance,
               keyPublishable,
-              id: req.params.id
+              id: req.params.id,
+              title: "Billing"
           });
       })
 
@@ -158,4 +159,33 @@ router.get('*', function(req, res){
     res.send('Sorry, this is an invalid URL.');
 });
 
+function authenticationMiddleware () {
+    return function (req, res, next) {
+        if (req.isAuthenticated()) {
+
+
+            Staff.findAll({attributes: ["role"], where: {staff_id: req.user.staff_id}}).then((role) => {
+                console.log(role[0].role)
+                if (role[0].role === 1 ) {
+                    return res.redirect('/admin')
+                }
+                else if (role[0].role === 2) {
+                    return res.redirect('/kitchen')
+                }
+                else if (role[0].role === 3) {
+                    return res.redirect('/waiter')
+                }
+                else if (role[0].role === 4) {
+
+                    return next()
+
+                }
+
+            })
+
+        } else {
+            res.redirect('/orders/login')
+        }
+    }
+}
 module.exports = router;

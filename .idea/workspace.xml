@@ -2,13 +2,28 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cd1fbfc-1ad4-4ff4-be22-b1c7b712cc5d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/views/search.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/admin.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/kitchen.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/passport.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/routes/waiter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/admin.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/kitchen.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/booking.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/head.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/nav.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/order.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/script.ejs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/views/particals/search.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/billing.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/billing.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/routes/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orders.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/charge.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/charge.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/index.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/index.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/login.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/views/orders.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/orders.ejs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/views/search.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/search.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +100,7 @@
       <updated>1581676602424</updated>
       <workItem from="1581676609299" duration="11967000" />
       <workItem from="1581781007404" duration="23544000" />
-      <workItem from="1583347819566" duration="45415000" />
+      <workItem from="1583347819566" duration="58522000" />
     </task>
     <task id="LOCAL-00001" summary="Merge remote-tracking branch 'refs/remotes/PaperlessApp/v1-Ryan'&#10;&#10;Conflicts:&#10;&#9;.idea/workspace.xml&#10;&#9;app.js&#10;&#9;model/billing.js&#10;&#9;model/complete_orders.js&#10;&#9;model/cooked_orders.js&#10;&#9;model/order.js&#10;&#9;model/order_item.js&#10;&#9;model/orders.js&#10;&#9;model/payment.js&#10;&#9;model/staff.js&#10;&#9;package-lock.json&#10;&#9;package.json&#10;&#9;routes/billing.js&#10;&#9;routes/orders.js&#10;&#9;views/index.ejs&#10;&#9;views/orders.ejs">
       <created>1583264801396</created>
@@ -122,7 +137,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583611379281</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Implemented search functionality on orders pages that takes table number as a value this has used Op from sequelize to allow for like to be used in the query.&#10;Added a search page to display this information that is the same style as the orders page.&#10;Fixed issue with authentication login not redirecting to the correct area even with the session being stored.&#10;&#10;Added the charged information from billing to the database along with the other tables that needed updating as a result of this data which is at a different route but still the same process.&#10;charge.ejs now shows the correct data again.&#10;&#10;Billing now sends all the data from the front end to the backend and to a Stripe for the payment processing.&#10;&#10;RL">
+      <created>1583853166448</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1583853166448</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -136,7 +158,8 @@
     <MESSAGE value="Added fully functional user authentication via passport.&#10;Added role based authentication ie admin and front desk can view orders but other will be redirected to login.&#10;This has only been implemented in the order route with a possible plan to move it to its own route but for the time being take the passport code to your own routes and alter values for that route it redirect the role number to the correct route.&#10;Added registering a user which could be used in admin view but other than that it is mainly for testing purpose.&#10;&#10;Added session storage for the user authentication via package.json.&#10;&#10;So if using the previous version please update to this one as this fixes the issues with the system I was creating.&#10;&#10;FIX &#10;Add bootstrap for login.ejs.&#10;Any errors with the authentication ie redirect not taking you to that page even with the correct user and password.&#10;Add error page with the error code or add a nicer format.&#10;&#10;Add logout button with working url.&#10;&#10;Any questions email me.&#10;&#10;RL" />
     <MESSAGE value="Added dynamic data to Billing Page that reflects the order id.&#10;All areas of billing page now uses dynamic data where static data once was.&#10;Added associations to needed areas on billing.js &#10;Data posts to Stripe.&#10;&#10;Fixed issue with order_item.js not correctly displaying the correct information due to missing index key&#10;Fixed issue with charge.ejs not having the correct data due to misunderstanding the JSON object (using charge.dataValues.total instead of just charge.total)&#10;&#10;app.js will contain test relationships that have been altered when trying to get billing to work.&#10;&#10;FIX &#10;Add data to the database but still need to figure out the correct relation with what needs posting.&#10;Order page needs to show relevant information ie items and price.&#10;&#10;RL" />
     <MESSAGE value="Fixed orders page to show correct information and dynamic data for that order requested along with fields more relevant ie price and order made.&#10; RL" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed orders page to show correct information and dynamic data for that order requested along with fields more relevant ie price and order made.&#10; RL" />
+    <MESSAGE value="Implemented search functionality on orders pages that takes table number as a value this has used Op from sequelize to allow for like to be used in the query.&#10;Added a search page to display this information that is the same style as the orders page.&#10;Fixed issue with authentication login not redirecting to the correct area even with the session being stored.&#10;&#10;Added the charged information from billing to the database along with the other tables that needed updating as a result of this data which is at a different route but still the same process.&#10;charge.ejs now shows the correct data again.&#10;&#10;Billing now sends all the data from the front end to the backend and to a Stripe for the payment processing.&#10;&#10;RL" />
+    <option name="LAST_COMMIT_MESSAGE" value="Implemented search functionality on orders pages that takes table number as a value this has used Op from sequelize to allow for like to be used in the query.&#10;Added a search page to display this information that is the same style as the orders page.&#10;Fixed issue with authentication login not redirecting to the correct area even with the session being stored.&#10;&#10;Added the charged information from billing to the database along with the other tables that needed updating as a result of this data which is at a different route but still the same process.&#10;charge.ejs now shows the correct data again.&#10;&#10;Billing now sends all the data from the front end to the backend and to a Stripe for the payment processing.&#10;&#10;RL" />
   </component>
   <component name="WindowStateProjectService">
     <state x="722" y="70" key="#JSHint" timestamp="1581782128265">
@@ -155,10 +178,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="814" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1581780731414" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1583611377619">
+    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1583853165928">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1583611377619" />
+    <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1583853165928" />
     <state x="728" y="158" width="590" height="502" key="DiffContextDialog" timestamp="1583609916161">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -167,22 +190,22 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="1026" y="309" width="390" height="212" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1582024950514" />
-    <state width="743" height="143" key="GridCell.Tab.0.bottom" timestamp="1583852772254">
+    <state width="1515" height="143" key="GridCell.Tab.0.bottom" timestamp="1584026950297">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="743" height="143" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1583852772254" />
-    <state width="743" height="143" key="GridCell.Tab.0.center" timestamp="1583852772254">
+    <state width="1515" height="143" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584026950297" />
+    <state width="1515" height="143" key="GridCell.Tab.0.center" timestamp="1584026950296">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="743" height="143" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1583852772254" />
-    <state width="743" height="143" key="GridCell.Tab.0.left" timestamp="1583852772254">
+    <state width="1515" height="143" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584026950296" />
+    <state width="1515" height="143" key="GridCell.Tab.0.left" timestamp="1584026950296">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="743" height="143" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1583852772254" />
-    <state width="743" height="143" key="GridCell.Tab.0.right" timestamp="1583852772254">
+    <state width="1515" height="143" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584026950296" />
+    <state width="1515" height="143" key="GridCell.Tab.0.right" timestamp="1584026950297">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state width="743" height="143" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1583852772254" />
+    <state width="1515" height="143" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584026950297" />
     <state x="294" y="60" key="MergeDialog" timestamp="1583264749898">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -191,14 +214,18 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="725" y="115" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1583264749906" />
+    <state x="396" y="261" key="Performance.Activity.Monitor" timestamp="1584010464485">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="396" y="261" key="Performance.Activity.Monitor/0.0.1536.824@0.0.1536.824" timestamp="1584010464485" />
     <state x="555" y="57" key="SettingsEditor" timestamp="1581780897856">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="555" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581780897856" />
-    <state x="613" y="123" key="Vcs.Push.Dialog.v2" timestamp="1583611384392">
+    <state x="613" y="123" key="Vcs.Push.Dialog.v2" timestamp="1583853169900">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="613" y="123" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1583611384392" />
+    <state x="613" y="123" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1583853169900" />
     <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1583265054175">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -207,14 +234,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1583347854601" />
-    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1583606373455">
+    <state x="762" y="0" width="781" height="830" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1584010398761">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="862" y="100" width="581" height="630" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1583606373455" />
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1583607724849">
+    <state x="762" y="0" width="781" height="830" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1584010398761" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup" timestamp="1584016498666">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1583607724849" />
+    <state x="431" y="145" width="672" height="678" key="search.everywhere.popup/0.0.1536.824@0.0.1536.824" timestamp="1584016498666" />
     <state x="943" y="87" key="svn.repositoryBrowser" timestamp="1582025408459">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

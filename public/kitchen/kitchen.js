@@ -1,11 +1,12 @@
 let connURL = window.location.host;
 const socket = io(connURL);
 socket.on('connect', function() {
-	console.log(socket.id);
+	//console.log(socket.id);
 });
 
-socket.on('order made', function(data) {
-	console.log("order got");
+// incoming orders from the controller
+socket.on('new order', function(data) {
+	//console.log("order got");
 	data.items.forEach(item => {
 		item = $.extend(item, itemClient);
 	});
@@ -13,6 +14,29 @@ socket.on('order made', function(data) {
 	orders.push(data);
 
 	renderMain(orders);
+});
+
+// incoming order completions from the controller
+socket.on('order complete', function(data) {
+	orders.forEach(function(order, index, orders) {
+		if("" + order.key + order.table === data) 
+			orders.splice(index, 1);
+	});
+	renderMain(orders);
+});
+
+// incoming order quantity change from the controller
+socket.on('qty change', function(data) {
+	orders.forEach(function(order, index, orders) {
+		if("" + order.key + order.table === data.oid) {
+			order.items.forEach(item => {
+				if(item.num === data.itemNum)
+					item.completed = data.completed;
+			});
+		}
+	});
+	renderMain(orders);
+	
 });
 
 // array of order objects.
@@ -23,9 +47,11 @@ let orderClient = { time_elapsed: 0 };
 let itemClient = { completed: 0 };
 let warningTime = 1200; //20 minute warning
 
+//temp function to push order data from itself to the controller
+// actual function should come from the main controller when an order is made
 function pushOrder(data) {
-	console.log("pushOrder: " + JSON.stringify(data));
-	socket.emit('pushOrder', data);
+	console.log("push order: " + JSON.stringify(data));
+	socket.emit('push order', data);
 }
 
 /**
@@ -38,6 +64,8 @@ function renderMain(orders) {
 		articleElems += makeArticle(order);
 	});
 	$("main").get(0).innerHTML = articleElems;
+
+	bindButtons(orders);
 }
 
 /**
@@ -46,7 +74,7 @@ function renderMain(orders) {
  * @returns String
  */
 function makeArticle(order) {
-	console.log(order);
+	//console.log(order);
 	let oid = "" + order.key + order.table;
 	let out = '<article id="' + oid + '">';
 
@@ -75,8 +103,50 @@ function makeArticle(order) {
 }
 
 /**
- * Converts a Date object or Integer to a pretty time formatted like `HH:MM:SS`. Adds leading zeroes if necessary. If Integer is passed in, it will be conveted to a new Date object on UTC.
- * @param {Date | Integer} timestamp 
+ * Binds events to DOM elements after they've been rendered to the DOM. This method should be called after `renderMain();` is complete and has pushed elements to the document.
+ * @param {orders} orders 
+ */
+function bindButtons(orders) {
+	orders.forEach(function(order, index, orders) {
+		let oid = "" + order.key + order.table;
+
+		//completion of order
+		$("input[name='co" + oid + "']").on('click', function() {
+			//console.log("removing " + JSON.stringify(orders[index]));
+			socket.emit('complete order', oid);
+		});
+
+		order.items.forEach(item => {
+			let iid = "" + order.key + item.num;
+			//adding quantity complete
+			$("input[name*='ac" + iid + "']").on('click', function() {
+				//console.log("incrementing qty " + JSON.stringify(item));
+				socket.emit('qty update', {oid: oid, itemNum: item.num, completed: ++item.completed});
+			});
+	
+			//removing quantity complete
+			$("input[name*='dc" + iid + "']").on('click', function() {
+				//console.log("decrementing qty " + JSON.stringify(item));
+				socket.emit('qty update', {oid: oid, itemNum: item.num, completed: --item.completed});
+			});
+
+			if(item.completed == 0) {
+				$("input[name='ac" + iid + "']").prop('disabled', false);
+				$("input[name='dc" + iid + "']").prop('disabled', true);
+				$("#" + iid).removeClass("complete");
+			}
+			else if(item.completed == item.qty) {
+				$("input[name='ac" + iid + "']").prop('disabled', true);
+				$("input[name='dc" + iid + "']").prop('disabled', false);
+				$("#" + iid).addClass("complete");
+			}
+		});
+	});
+}
+
+/**
+ * Converts an Integer of time in miliseconds to a pretty time formatted like `HH:MM:SS`. Adds leading zeroes if necessary.
+ * @param {Integer} timestamp 
  * @returns String
  */
 function prettyTime(timestamp) {
@@ -88,27 +158,19 @@ function prettyTime(timestamp) {
 	return h + ":" + m + ":" + s;
 }
 
+//when DOM is ready
 $(document).ready(function() {
-	//let mainElem = $("main").get(0);
-
 	let timer = setInterval(function() {
 		let pTime = prettyTime(Date.now());
 		$("#clock").get(0).innerHTML = pTime;
 
-		//perform actions and binds for each order
+		//for each order on show
 		orders.forEach(function(order, index, orders) {
 			let oid = "" + order.key + order.table;
-			//resolve elapsed time for each order
+			//resolve elapsed time for each order and flash warning if necessary
 			order.time_elapsed = Date.now().valueOf() - order.time;
 			if(order.time_elapsed >= warningTime * 1000) $("#" + oid).toggleClass("elapsed");
 			$("#" + oid + " .time_elapse").get(0).innerHTML = "Elapsed: " + prettyTime(order.time_elapsed);
-
-			$("input[name='co" + oid + "']").unbind().on('click', function() {
-				console.log("removing " + orders[index]);
-				orders.splice(index, 1);
-				renderMain(orders);
-			});
 		});
-		
 	}, 500);
 });

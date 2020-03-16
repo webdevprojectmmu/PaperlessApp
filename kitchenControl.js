@@ -21,12 +21,27 @@ let order = {
 io.on('connect', function(socket) {
 	console.log(socket.id);
 
-	socket.on('pushOrder', function(data) {
+	// pushing incoming order to all clients
+	// expected 'data' object: 'order' variable above.
+	socket.on('push order', function(data) {
 		console.log("Pushing order: " + JSON.stringify(data));
-		io.sockets.emit('order made', data);
+		io.sockets.emit('new order', data);
+	});
+
+	// pushing order completion to all clients
+	// expected 'data' object: "" + order.key + order.table
+	socket.on('complete order', function(data) {
+		console.log('completing order: ' + data);
+		io.sockets.emit('order complete', data);
+	});
+
+	// pushing quantity updates to all clients
+	// expected 'data' object: {oid: "" + order.key + order.table, itemNum: order.items[n].num, completed: n}
+	socket.on('qty update', function(data) {
+		console.log('updating quantity: ' + JSON.stringify(data));
+		io.sockets.emit('qty change', data);
 	});
 });
-
 
 server.listen(8001, '0.0.0.0', function() {
 	console.log("Server started.");

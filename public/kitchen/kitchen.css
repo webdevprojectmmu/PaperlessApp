@@ -30,10 +30,12 @@ article {
 	border: 1px solid rgba(0, 0, 0, 0.7);
 	border-radius: 8px;
 	background-color: rgba(0, 0, 0, 0.1);
-	flex-basis: 22%;
+	flex-basis: 20%;
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
+	max-width: 400px;
+	min-width: 300px;
 }
 
 article h2 { margin-bottom: 12px; }

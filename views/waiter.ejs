@@ -26,11 +26,12 @@
 				});
 				console.log(data[i - 3].quantity);
 			}
+			data = JSON.stringify(data);
 
 			$.ajax({
 				type: "POST",
 				url: "/waiter",
-				data: JSON.stringify(data),
+				data: data,
 				success: console.log("yes"),
 				dataType: "JSON" 
 			});

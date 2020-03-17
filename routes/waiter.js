@@ -12,9 +12,9 @@ router.get('/', function(req, res, next) {
   })
 });
 
-router.post('/', function(req, rest, next) {
+router.post('/', function(req, res, next) {
   console.log("Post made");
-  console.log(req.body);
-  console.log(JSON.parse(req.body));
+  let thing =  req.body;
+  console.log(thing);
 });
 module.exports = router;

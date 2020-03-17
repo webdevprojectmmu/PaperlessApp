@@ -36,6 +36,27 @@
 				dataType: "JSON" 
 			});
 		}
+		
+		function itemSearch() {
+			// Declare variables
+  			var input, filter, ul, li, a, i, txtValue;
+  			input = document.getElementById('myInput');
+  			filter = input.value.toUpperCase();
+ 			ul = document.getElementById("myUL");
+  			li = ul.getElementsByTagName('li');
+
+  			// Loop through all list items, and hide those who don't match the search query
+  			for (i = 0; i < li.length; i++) {
+    			a = li[i].getElementsByTagName("div")[0];
+    			txtValue = a.textContent || a.innerText;
+    			if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      			li[i].style.display = "";
+    			} else {
+				  li[i].style.display = "none";
+				}
+			}
+		}
+		
 	</script>
 
 
@@ -89,10 +110,12 @@
 		</div>
 		<div class="modal-body">
 			<!-- Search form -->
-			<input class="form-control" type="text" placeholder="Search" aria-label="Search">
-			<% for(var i = 0; i < item.length; i++) {%>
-				<div class="item" onclick="addItem(<%= JSON.stringify(item[i]) %>)"><%= item[i].name + " £" + (item[i].cost / 100).toFixed(2) %></div>
-			<%}%>
+			<input type="text" id="myInput" onkeyup="itemSearch()" placeholder="Search" aria-label="Search">
+			<ul id="myUL">
+				<% for(var i = 0; i < item.length; i++) {%>
+					<li><div class="item" onclick="addItem(<%= JSON.stringify(item[i]) %>)"><%= item[i].name + " £" + (item[i].cost / 100).toFixed(2) %></div></li>
+				<%}%>
+			</ul>
 		</div>
 		<div class="modal-footer">
 		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

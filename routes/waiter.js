@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Sequelize = require("sequelize");
-const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
+const sequelize = new Sequelize('mysql://'+process.env.DBUSERNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
 const Item = sequelize.import("../model/item");
 const OrderItems = sequelize.import("../model/order_item");
 

@@ -10,7 +10,7 @@ const LocalStrategy = require('passport-local').Strategy;
 const session = require("express-session");
 const SessionStore = require('express-session-sequelize')(session.Store);
 const dotenv = require("dotenv").config({path: __dirname+"/.env"});
-const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
+const sequelize = new Sequelize('mysql://'+process.env.DBUSERNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
 
 sequelize.authenticate().then(() => {
       console.log('Connection has been established successfully.');

@@ -11,11 +11,13 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	<script>
+		// executed when item is clicked on in add items menu
 		function addItem(item) {
 			console.log(item.item_id);
 			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\"></td></tr>");
 		}
 
+		// creates POST request when submit button is clicked
 		function submit() {
 			console.log("submit");
 			let data = []; 
@@ -38,6 +40,7 @@
 			});
 		}
 		
+		// filters items in add items menu
 		function itemSearch() {
 			let input, filter, ul, li, a, i, txtValue;
 			input = document.getElementById('search');

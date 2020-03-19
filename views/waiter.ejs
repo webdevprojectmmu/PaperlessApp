@@ -13,18 +13,19 @@
 	<script>
 		function addItem(item) {
 			console.log(item.item_id);
-			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td><td></td><td>1</td></tr>");
+			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\"></td></tr>");
 		}
 
 		function submit() {
 			console.log("submit");
 			let data = []; 
-			for(let i = 3; i < 5; i++) {
+			let tr = document.getElementsByTagName('tr');
+			for(let i = 3; i <= tr.length; i++) {
 				data.push( {
 					item_id: ($("tr:nth-child(" + i + ") > td")[0].innerHTML),
 					quantity: ($("tr:nth-child(" + i + ") > td")[3].innerHTML)
 				});
-				console.log(data[i - 3].quantity);
+				console.log(data[i-3].quantity);
 			}
 			data = JSON.stringify(data);
 
@@ -38,21 +39,21 @@
 		}
 		
 		function itemSearch() {
-			// Declare variables
-  			var input, filter, ul, li, a, i, txtValue;
-  			input = document.getElementById('myInput');
-  			filter = input.value.toUpperCase();
- 			ul = document.getElementById("myUL");
-  			li = ul.getElementsByTagName('li');
-
-  			// Loop through all list items, and hide those who don't match the search query
+			let input, filter, ul, li, a, i, txtValue;
+			input = document.getElementById('search');
+			filter = input.value.toUpperCase();
+			ul = document.getElementById("itemList");
+			li = ul.getElementsByTagName('li');
+			  
+  			// loop through list items and hide those that don't match the search query
   			for (i = 0; i < li.length; i++) {
-    			a = li[i].getElementsByTagName("div")[0];
-    			txtValue = a.textContent || a.innerText;
-    			if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      			li[i].style.display = "";
-    			} else {
-				  li[i].style.display = "none";
+				a = li[i].getElementsByTagName("div")[0];
+				txtValue = a.textContent || a.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					li[i].style.display = "";
+				} 
+				else {
+					li[i].style.display = "none";
 				}
 			}
 		}
@@ -79,6 +80,7 @@
 		<th>Item Notes</th>
 		<th>Quantity</th>
 	</tr>
+	<!--
 	<tr>
 		<td>101</td>
 		<td>Chicken fried rice</td>
@@ -91,6 +93,7 @@
 		<td></td>
 		<td>1</td>
 	</tr>
+	-->
 </table>
 
 <!-- Button trigger modal -->
@@ -110,8 +113,8 @@
 		</div>
 		<div class="modal-body">
 			<!-- Search form -->
-			<input type="text" id="myInput" onkeyup="itemSearch()" placeholder="Search" aria-label="Search">
-			<ul id="myUL">
+			<input type="text" id="search" onkeyup="itemSearch()" placeholder="Search" aria-label="Search">
+			<ul id="itemList">
 				<% for(var i = 0; i < item.length; i++) {%>
 					<li><div class="item" onclick="addItem(<%= JSON.stringify(item[i]) %>)"><%= item[i].name + " £" + (item[i].cost / 100).toFixed(2) %></div></li>
 				<%}%>

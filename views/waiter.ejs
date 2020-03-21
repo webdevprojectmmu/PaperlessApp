@@ -11,16 +11,21 @@
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 	<script>
+		
+		let order = [];
+		
 		// executed when item is clicked on in add items menu
 		function addItem(item) {
 			console.log(item.item_id);
+			order.push(item);
 			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\"></td></tr>");
+			console.log(order);
 		}
 
 		// creates POST request when submit button is clicked
 		function submit() {
 			console.log("submit");
-			let data = []; 
+		/*	let data = []; 
 			let tr = document.getElementsByTagName('tr');
 			for(let i = 3; i <= tr.length; i++) {
 				data.push( {
@@ -30,11 +35,14 @@
 				console.log(data[i-3].quantity);
 			}
 			data = JSON.stringify(data);
+			*/
+
+			console.log(order);
 
 			$.ajax({
 				type: "POST",
 				url: "/waiter",
-				data: data,
+				data: order,
 				success: console.log("yes"),
 				dataType: "JSON" 
 			});

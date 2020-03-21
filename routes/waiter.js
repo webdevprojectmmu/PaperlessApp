@@ -14,7 +14,9 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   console.log("Post made");
-  let thing =  req.body;
-  console.log(thing);
+  console.log(req.body);
+  //thing.push(req.body);
+  //thing = JSON.parse(thing);
+  //console.log(thing);
 });
 module.exports = router;

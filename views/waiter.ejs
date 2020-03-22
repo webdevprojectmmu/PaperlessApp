@@ -17,7 +17,7 @@
 		// executed when item is clicked on in add items menu
 		function addItem(item) {
 			console.log(item.item_id);
-			order.push(item);
+			order.push({item_id: item.item_id, quantity: 1});	
 			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\"></td></tr>");
 			console.log(order);
 		}
@@ -25,27 +25,23 @@
 		// creates POST request when submit button is clicked
 		function submit() {
 			console.log("submit");
-		/*	let data = []; 
-			let tr = document.getElementsByTagName('tr');
-			for(let i = 3; i <= tr.length; i++) {
-				data.push( {
-					item_id: ($("tr:nth-child(" + i + ") > td")[0].innerHTML),
-					quantity: ($("tr:nth-child(" + i + ") > td")[3].innerHTML)
-				});
-				console.log(data[i-3].quantity);
-			}
-			data = JSON.stringify(data);
-			*/
-
 			console.log(order);
 
-			$.ajax({
-				type: "POST",
-				url: "/waiter",
-				data: order,
-				success: console.log("yes"),
-				dataType: "JSON" 
-			});
+			const data = order;
+			fetch('waiter', {
+				method: 'POST',
+  				headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(data),
+		})
+		.then((response) => response.json())
+		.then((data) => {
+			console.log('Success:', data);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
 		}
 		
 		// filters items in add items menu

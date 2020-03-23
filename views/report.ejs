@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<%- include("particals/head")%>
+<body onbeforeprint="removePage()" onafterprint="showPage()">
+<%- include('particals/nav')%>
+<div class="container">
+
+        <table width="100%">
+            <tbody>
+            <tr>
+            <th>ID:</th>
+                <th>Amount:</th>
+                <th>Discount:</th>
+            </tr>
+
+            <%for(let i=0;i<amount.length;i++){%>
+            <tr>
+            <td><%=amount[i].payment_id%></td>
+
+                <td><%=(amount[i].amount/100).toFixed(2)%></td>
+                <td><%=amount[i].discount%>%</td>
+
+            </tr>
+                <%}%>
+
+
+
+            </tbody>
+            <h2>
+            <tr>
+                <th>
+                    Total
+                </th>
+                <td>£<%=(amount.reduce(function (a, b) {return a + b.amount},0)/100).toFixed(2)%></td>
+            </tr>
+            </h2>
+
+        </table>
+
+    <button id="print" onclick="window.print();" class="btn-primary btn-lg">Print</button>
+
+
+    <%- include("particals/script")%>
+</div>
+</body>
+</html>

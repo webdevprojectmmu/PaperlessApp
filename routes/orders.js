@@ -11,6 +11,7 @@ const Item = sequelize.import("../model/item");
 const Payment = sequelize.import("../model/payment");
 const BillPayments = sequelize.import("../model/bill_payments");
 const CookedOrders = sequelize.import("../model/cooked_orders");
+const moment = require("moment")
 
 Order.hasOne(Staff,{foreignKey:"staff_id", foreignKeyConstraint: true});
 Staff.belongsTo(Order,{foreignKey:"staff_id", foreignKeyConstraint: true})
@@ -110,14 +111,30 @@ router.post('/login',passport.authenticate('local'),
 
 router.get("/login", function (req,res) {
 
-    res.render("login",{title: "Login"})
+    res.render("login",{title: "Login", login:req.isAuthenticated()})
 })
 
 router.get("/logout", (req,res)=>{
-    req.session.destroy();
     req.logout();
-    console.log(req.session)
-    res.redirect("/orders/login")
+    req.session.destroy((err) => {
+        res.clearCookie('connect.sid');
+        res.redirect("login")
+    });
+
+
+})
+router.get("/report",authenticationMiddleware(), function (req,res) {
+    Payment.findAll({include:{model:Billing, nested:true, where: {time_complete: {[Op.gte]: moment().subtract(7, 'days').toDate()}
+        }}}).then((amount) => {
+
+
+        console.log(JSON.stringify(amount,null,6))
+        res.render("report",{amount:amount,title:"Report"})
+
+
+
+
+    })
 
 })
 
@@ -130,7 +147,7 @@ router.get('/',authenticationMiddleware(), function(req, res) {
 
 });
 
-router.get('/search', (req, res) => {
+router.get('/search',authenticationMiddleware(), (req, res) => {
     let { q } = req.query;
     q = q.toLowerCase();
 

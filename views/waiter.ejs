@@ -16,9 +16,14 @@
 
 		// executed when item is clicked on in add items menu
 		function addItem(item) {
-			console.log(item.item_id);
-			$("table").append("<tr id=\"" + item.item_id + "\"> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\" min=\"1\"></td>"
-				+ "<td><button type=\"button\" class=\"btn btn-secondary\" onclick=\"removeItem(" + item.item_id + ")\">Remove</button></td></tr>");
+			if(document.body.contains(document.getElementById(item.item_id))){
+				console.log("exists");
+			}
+			else {
+				console.log(item.item_id);
+				$("table").append("<tr id=\"" + item.item_id + "\"> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\" min=\"1\"></td>"
+					+ "<td><button type=\"button\" class=\"btn btn-secondary\" onclick=\"removeItem(" + item.item_id + ")\">Remove</button></td></tr>");
+			}
 		}
 
 		function removeItem(id) {

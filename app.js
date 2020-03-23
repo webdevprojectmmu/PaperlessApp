@@ -92,7 +92,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(session({ secret: 'keyboard cat',store: sequelizeSessionStore,resave: false, saveUninitialized:false}));
+app.use(session({ secret: process.env.SECRET ,store: sequelizeSessionStore,resave: false, saveUninitialized:false}));
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(

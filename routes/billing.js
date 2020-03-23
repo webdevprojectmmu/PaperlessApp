@@ -152,6 +152,45 @@ router.get("/charge",function (req,res) {
 res.redirect("/orders")
 });
 
+router.post("/charge/cash/:id", (req, res) => {
+    Order.findAll({where:{order_id: req.params.id},include:{all:true, nested:true}}).then((data) => {
+        console.log(JSON.stringify(req.body,null,6))
+        Billing.create({
+            order_id: data[0].order_id,
+            time_complete: Date.now(),
+            total: req.body.total
+        }).then(d=> {
+            console.log("hello " + d)
+
+            let amount = req.body.total;
+            console.log(JSON.stringify(req.body, null, 6))
+            if (req.body.addDiscounts === "6UsM3uUv") {
+                let percentage = (10 / 100) * amount;
+                let dAmount = amount - percentage;
+                Payment.create({
+                    amount: dAmount,
+                    discount: 10
+                }).then(result => {
+                    console.log(result)
+                    res.render("charge", {charge: result, title: "Charge"})
+                })
+            } else {
+                Payment.create({
+                    amount: amount,
+                    discount: 0
+                }).then(result => {
+                    console.log("D VALUE "+JSON.stringify(d,null,6))
+                    console.log("RESULT VALUE "+JSON.stringify(result, null, 6) + req.body.addDiscounts)
+
+                    BillPayments.create({bill_id:d.bill_id,payment_id: result.payment_id}).then( n => {
+                        res.render("charge", {charge: result, title: "Charge"})
+                        console.log(JSON.stringify(n,null,6))
+                    })
+                })
+            }
+        })
+            })
+});
 
 
 

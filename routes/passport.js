@@ -21,15 +21,14 @@ Item.belongsToMany(Order,{foreignKey: "item_id", foreignKeyConstraint: true,thro
 
 Billing.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
 Order.belongsTo(Billing,{foreignKey:"order_id", foreignKeyConstraint: true})
-BillPayments.belongsTo(Payment,{foreignKey:"payment_id"})
-Payment.belongsToMany(Billing, {foreignKey:"payment_id", through: BillPayments });
-BillPayments.belongsTo(Billing,{foreignKey:"bill_id"})
-Billing.belongsToMany(Payment, {foreignKey:"bill_id",through:BillPayments});
+BillPayments.hasMany(Payment,{foreignKey:"payment_id",foreignKeyConstraint: true })
+Payment.belongsToMany(Billing, {foreignKey:"payment_id",foreignKeyConstraint: true, through: BillPayments });
+BillPayments.hasMany(Billing,{foreignKey:"bill_id",foreignKeyConstraint: true })
+Billing.belongsToMany(Payment, {foreignKey:"bill_id",foreignKeyConstraint: true,through:BillPayments});
 CookedOrders.belongsTo(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
 Order.hasOne(CookedOrders,{foreignKey:"order_id", foreignKeyConstraint: true})
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
-/* GET home page. */
 
 
 
@@ -45,48 +44,35 @@ router.post("/register", (req,res) =>{
             name: name,
             password: hash,
             role: role
-
         }).then((results,err)=>{
             if (err) throw err;
             const staffID = results.staff_id;
-            console.log(staffID)
             Staff.findOne({where: {staff_id: staffID}}).then((staffID,err)=>{
                 if (staffID.role === 4){
                     const staff = staffID.staff_id
                     req.login(staff, function (err) {
-                        Order.findAll( {include:{all:true, nested:true}}).then(result => {
-                            res.render("orders", {orders: result, title:"Orders"})
-                        })
-
+                        res.redirect("/orders")
                     })
                 } else if(staffID.role === 3) {
                     const staff = staffID.staff_id
                     req.login(staff, function (err) {
                         res.redirect("/admin")
-
                     })
                 } else if(staffID.role === 2) {
                     const staff = staffID.staff_id
                     req.login(staff, function (err) {
                         res.redirect("/waiter")
-
                     })
                 }
                 else if(staffID.role === 1) {
                     const staff = staffID.staff_id
                     req.login(staff, function (err) {
                         res.redirect("/kitchen")
-
                     })
                 }
-
-
-                });
-
+            });
         })
     })
-
-
 });
 
 passport.serializeUser(function(staff, done) {
@@ -102,13 +88,13 @@ passport.deserializeUser(function(staff, done) {
 
 
 
-router.post('/login',passport.authenticate('local'),
+router.post('/',passport.authenticate('local'),authenticationMiddleware(),
     function(req, res) {
         res.redirect("/orders")
     }
 );
 
-router.get("/login", function (req,res) {
+router.get("/", function (req,res) {
 
     res.render("login",{title: "Login"})
 })
@@ -121,43 +107,6 @@ router.get("/logout", (req,res)=>{
 
 })
 
-router.get('/',authenticationMiddleware(), function(req, res) {
-    console.log(req.isAuthenticated())
-    console.log(req.user)
-    Order.findAll( {include:{all:true, nested:true}}).then(result => {
-        res.render("orders", {orders: result, title:"Orders"})
-    })
-
-});
-
-router.get('/search', (req, res) => {
-    let { q } = req.query;
-    q = q.toLowerCase();
-
-    Order.findAll({ where: { table_num: { [Op.like]: '%' + q + '%' } },include:{all:true, nested:true} })
-        .then(orders => {console.log(orders); res.render('search', { orders, title:"Search" })})
-        .catch(err => console.log(err));
-});
-
-router.get('*', function(req, res){
-
-    res.send('Sorry, this is an invalid URL.' + req.originalUrl+ '<br>' +
-        'Press this link to return to parent directory <a href="/orders">Orders</a> or wait for redirect<script>' +
-        'var count = 6;' +
-        'function redirectClient(){' +
-            'var numTi = document.getElementById("numTi");' +
-            'if(count > 0){' +
-                'count--;' +
-                'numTi.innerHTML = "Redirect in "+count+" seconds.";' +
-                'setTimeout("redirectClient()", 1000);' +
-            '}else{' +
-                'window.location.href = "/orders";' +
-            '}' +
-        '}' +
-        '</script> <span id="numTi"><script type="text/javascript">redirectClient();</script></span>');
-});
-
-
 function authenticationMiddleware () {
     return function (req, res, next) {
         if (req.isAuthenticated()) {
@@ -166,24 +115,24 @@ function authenticationMiddleware () {
             Staff.findAll({attributes: ["role"], where: {staff_id: req.user.staff_id}}).then((role) => {
                 console.log(role[0].role)
                 if (role[0].role === 1 ) {
-                    return res.redirect('/admin')
-                }
-                else if (role[0].role === 3) {
-                    return res.redirect('/kitchen')
+                    return next()
                 }
                 else if (role[0].role === 2) {
+                    return res.redirect('/kitchen')
+                }
+                else if (role[0].role === 3) {
                     return res.redirect('/waiter')
                 }
                 else if (role[0].role === 4) {
+                    next()
 
-                    return next()
 
                 }
 
             })
 
         } else {
-             res.redirect('/orders/login')
+            res.redirect('/orders/login')
         }
     }
 }

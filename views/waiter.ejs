@@ -10,34 +10,38 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
-	<script>
-		
-		let order = [];
-		
+	<script>		
 		// executed when item is clicked on in add items menu
 		function addItem(item) {
 			console.log(item.item_id);
-			order.push({item_id: item.item_id, quantity: 1});	
 			$("table").append("<tr> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\"></td></tr>");
-			console.log(order);
 		}
 
 		// creates POST request when submit button is clicked
 		function submit() {
 			console.log("submit");
-			console.log(order);
+			
+			let order = [{staff_id: 1, table_num: document.querySelector("body > table > tbody > tr:nth-child(1) > th > input[type=number]").value}];
+			
+			let tr = document.getElementsByTagName('tr');
+			for(let i = 3; i <= tr.length; i++) {
+				order.push( {
+					item_id: document.querySelector("body > table > tbody > tr:nth-child(" + i + ") > td:nth-child(1)").innerHTML,
+					quantity: document.querySelector("body > table > tbody > tr:nth-child(" + i + ") > td:nth-child(4) > input[type=number]").value
+				});
+			}
 
-			const data = order;
+			console.log(order);
 			fetch('waiter', {
 				method: 'POST',
   				headers: {
 				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(data),
+			body: JSON.stringify(order),
 		})
 		.then((response) => response.json())
-		.then((data) => {
-			console.log('Success:', data);
+		.then((order) => {
+			console.log('Success:', order);
 		})
 		.catch((error) => {
 			console.error('Error:', error);
@@ -79,7 +83,7 @@
 
 <table border="1">
 	<tr>
-		<th>Table Number: 12</th>
+		<th>Table Number <input type="number" value="1" min="1"></th>
 	</tr>
 	<tr>
 		<th>Menu ID</th>

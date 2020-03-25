@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8cd1fbfc-1ad4-4ff4-be22-b1c7b712cc5d" name="Default Changelist" comment="Counter Complete(again)&#10;Last Commit&#10;Fixed authentication not redirecting on login with new logout deleting the cookie properly.&#10;&#10;Also added the task 3 from the assignment ab&#10;RL">
-      <change afterPath="$PROJECT_DIR$/views/report.ejs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/routes/orders.js" beforeDir="false" afterPath="$PROJECT_DIR$/routes/orders.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/login.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/login.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/orders.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/orders.ejs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/views/particals/search.ejs" beforeDir="false" afterPath="$PROJECT_DIR$/views/particals/search.ejs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -186,14 +180,16 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="814" y="245" key="#com.intellij.tools.ToolEditorDialog/0.0.1536.824@0.0.1536.824" timestamp="1581780731414" />
-    <state x="0" y="0" key="CommitChangelistDialog2" timestamp="1584975936248">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="1920" y="-5" width="1025" height="1099" key="CommitChangelistDialog2" timestamp="1585147769558">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="0" y="0" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1584975936248" />
-    <state x="329" y="10" width="971" height="626" key="DiffContextDialog" timestamp="1584621741004">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="1920" y="-5" width="1025" height="1099" key="CommitChangelistDialog2/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147769558" />
+    <state x="2151" y="8" width="683" height="1459" key="DiffContextDialog" timestamp="1585147859182">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="329" y="10" width="971" height="626" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1584621741004" />
+    <state x="2151" y="8" width="683" height="1459" key="DiffContextDialog/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147859182" />
     <state x="165" y="178" key="FileChooserDialogImpl" timestamp="1584621473667">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -202,22 +198,26 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="1026" y="309" width="390" height="212" key="Github.ShareDialog/0.0.1536.824@0.0.1536.824" timestamp="1582024950514" />
-    <state width="1515" height="143" key="GridCell.Tab.0.bottom" timestamp="1584976202255">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="528" height="538" key="GridCell.Tab.0.bottom" timestamp="1585147646835">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1515" height="143" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1584976202255" />
-    <state width="1515" height="143" key="GridCell.Tab.0.center" timestamp="1584976202255">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="528" height="538" key="GridCell.Tab.0.bottom/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147646835" />
+    <state width="528" height="538" key="GridCell.Tab.0.center" timestamp="1585147646835">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1515" height="143" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1584976202255" />
-    <state width="1515" height="143" key="GridCell.Tab.0.left" timestamp="1584976202255">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="528" height="538" key="GridCell.Tab.0.center/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147646835" />
+    <state width="528" height="538" key="GridCell.Tab.0.left" timestamp="1585147646834">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1515" height="143" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1584976202255" />
-    <state width="1515" height="143" key="GridCell.Tab.0.right" timestamp="1584976202255">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="528" height="538" key="GridCell.Tab.0.left/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147646834" />
+    <state width="528" height="538" key="GridCell.Tab.0.right" timestamp="1585147646835">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state width="1515" height="143" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1584976202255" />
+    <state width="528" height="538" key="GridCell.Tab.0.right/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147646835" />
     <state x="294" y="60" key="MergeDialog" timestamp="1583264749898">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -234,18 +234,21 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="555" y="57" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1581780897856" />
-    <state x="613" y="123" key="Vcs.Push.Dialog.v2" timestamp="1584960330847">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="2196" y="277" width="800" height="550" key="Vcs.Push.Dialog.v2" timestamp="1585147724288">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="613" y="123" key="Vcs.Push.Dialog.v2/0.0.1536.824@0.0.1536.824" timestamp="1584960330847" />
-    <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1584621741004">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="2196" y="277" width="800" height="550" key="Vcs.Push.Dialog.v2/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147724288" />
+    <state x="2432" y="363" width="411" height="1170" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1585147818176">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="728" y="158" width="584" height="502" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1584621741004" />
-    <state x="842" y="77" width="584" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1584633722490">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="2432" y="363" width="411" height="1170" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147818176" />
+    <state x="2512" y="174" width="411" height="1170" key="com.intellij.history.integration.ui.views.FileHistoryDialog" timestamp="1585147710114">
+      <screen x="1920" y="0" width="1080" height="1920" />
     </state>
     <state x="842" y="77" width="584" height="502" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.0.1536.824@0.0.1536.824" timestamp="1584633722490" />
+    <state x="2512" y="174" width="411" height="1170" key="com.intellij.history.integration.ui.views.FileHistoryDialog/0.840.1920.1080/1920.0.1080.1920@1920.0.1080.1920" timestamp="1585147710114" />
     <state x="561" y="23" width="781" height="808" key="com.intellij.history.integration.ui.views.SelectionHistoryDialog" timestamp="1584620922199">
       <screen x="0" y="0" width="1536" height="824" />
     </state>

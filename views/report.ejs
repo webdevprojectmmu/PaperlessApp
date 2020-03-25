@@ -11,6 +11,7 @@
             <th>ID:</th>
                 <th>Amount:</th>
                 <th>Discount:</th>
+                <th>Date&Time:</th>
             </tr>
 
             <%for(let i=0;i<amount.length;i++){%>
@@ -19,7 +20,10 @@
 
                 <td><%=(amount[i].amount/100).toFixed(2)%></td>
                 <td><%=amount[i].discount%>%</td>
+                <%for(let j=0;j<amount[i].billings.length;j++){%>
+                <td><%=moment(amount[i].billings[j].time_complete).format('DD.MM.YYYY, h:mm:ss a')%></td>
 
+                <%}%>
             </tr>
                 <%}%>
 

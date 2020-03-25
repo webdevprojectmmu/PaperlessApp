@@ -128,20 +128,21 @@ router.get("/report",authenticationMiddleware(), function (req,res) {
         }}}).then((amount) => {
 
 
+
         console.log(JSON.stringify(amount,null,6))
-        res.render("report",{amount:amount,title:"Report"})
+        res.render("report",{amount:amount,moment,title:"Report"})
 
 
 
 
     })
-
 })
 
 router.get('/',authenticationMiddleware(), function(req, res) {
     console.log(req.isAuthenticated())
     console.log(req.user)
     Order.findAll( {include:{all:true, nested:true}}).then(result => {
+
         res.render("orders", {orders: result, title:"Orders"})
     })
 
@@ -155,6 +156,7 @@ router.get('/search',authenticationMiddleware(), (req, res) => {
         .then(orders => {console.log(orders); res.render('search', { orders, title:"Search" })})
         .catch(err => console.log(err));
 });
+
 
 router.get('*', function(req, res){
 

@@ -111,7 +111,7 @@ router.post('/login',passport.authenticate('local'),
 
 router.get("/login", function (req,res) {
 
-    res.render("login",{title: "Login", login:req.isAuthenticated()})
+    res.render("login",{title: "Login", login:req.isAuthenticated(),user:""})
 })
 
 router.get("/logout", (req,res)=>{

@@ -72,16 +72,16 @@ router.get('/:id',authenticationMiddleware(), findOrderByIDMiddleware, function(
       Order.findAll({where:{order_id: req.params.id}, include:{all:true, nested:true}}).then(result => {
           //Billing.create({total: result.items.cost*result.items.order_items.quantity})
 
-          Staff.findOne({where:{staff_id:req.user.staff_id}}).then((user)=> {
+
               res.render("index", {
                   order: result,
                   bal: balance,
                   keyPublishable,
                   id: req.params.id,
                   title: "Billing",
-                  user:user
+
               });
-          })
+
       })
 
   });
@@ -121,9 +121,8 @@ router.post("/charge/:id", (req, res) => {
                         discount: total.discount
                     }).then(result=>{
                         console.log(result.amount)
-                        Staff.findOne({where:{staff_id:req.user.staff_id}}).then((user)=> {
-                            res.render("charge", {charge: result,user:user})
-                        })
+
+                            res.render("charge", {charge: result, title:"Charge"})
                     })
 
                 })
@@ -142,9 +141,9 @@ router.post("/charge/:id", (req, res) => {
                             discount: 0
                         }).then(result=>{
                         console.log(result.amount)
-                        Staff.findOne({where:{staff_id:req.user.staff_id}}).then((user)=> {
-                            res.render("charge", {charge: result,user:user})
-                        })
+
+                            res.render("charge", {charge: result,title:"Charge"})
+
                     })
 
                     })
@@ -178,9 +177,9 @@ router.post("/charge/cash/:id", (req, res) => {
                     discount: 10
                 }).then(result => {
                     console.log(result)
-                    Staff.findOne({where:{staff_id:req.user.staff_id}}).then((user)=> {
-                        res.render("charge", {charge: result, title: "Charge",user:user})
-                    })
+
+                        res.render("charge", {charge: result, title: "Charge"})
+
                 })
             } else {
                 Payment.create({
@@ -191,10 +190,10 @@ router.post("/charge/cash/:id", (req, res) => {
                     console.log("RESULT VALUE "+JSON.stringify(result, null, 6) + req.body.addDiscounts)
 
                     BillPayments.create({bill_id:d.bill_id,payment_id: result.payment_id}).then( n => {
-                        Staff.findOne({where:{staff_id:req.user.staff_id}}).then((user)=> {
-                            res.render("charge", {charge: result, title: "Charge",user:user})
+
+                            res.render("charge", {charge: result, title: "Charge"})
                             console.log(JSON.stringify(n, null, 6))
-                        })
+
                     })
                 })
             }

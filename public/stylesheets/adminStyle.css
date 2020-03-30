@@ -1,0 +1,101 @@
+body, h1, h2, h6, div, nav, header, footer, article, ul, li {
+	margin: 0px;
+	padding: 0px;
+	/*This resets the padding and margins to zero so different website defaults don't interfere*/
+}
+
+
+body{
+	font-size: 20px;
+}
+
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.scrollmenu td {
+  display: inline-block;
+  text-align: center;
+  padding: 14px;
+  text-decoration: none;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+nav li a:link {
+    color: black;
+}
+
+nav li a:visited{
+	color: black;
+}
+
+nav li a:hover{ /*This makes the internal links change colour when hovered over*/
+	background-color: #c94c4c;	
+}
+
+nav li a:active {
+    color: white;
+}
+
+h1 {
+
+}
+
+h2 {
+
+}
+
+h6 {
+	text-align: center;
+	margin: auto;
+	width: auto;
+	font-size: 1em;
+}
+
+#container, header, nav, article, footer, section, h6{
+	border: 1px solid #666; /*delete this line when finishing design*/
+	/*background-color: #b1cbbb/*#FFFFB3;*/
+}
+
+section{
+	margin:10px;
+	margin-top: 20px;
+}
+
+#container {
+	position: relative;
+	width: 80%;
+	min-width: 400px;
+	max-width: 1500px;
+	margin: 30px auto;
+}
+
+
+table, th, td {
+	text-align: center;
+	background-color: #FFFFFF;
+	border: 1px solid black;
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+table{
+	width: 80%;
+	margin-left: auto;
+	margin-right: auto;
+	border: none;
+}
+
+.takenOrdered{
+	background-color: #FF0000;
+}
+
+.takenNoOrder{
+	background-color: #FFFF00;
+}
+
+.freeNoOrder{
+	background-color: #00FF00;
+}

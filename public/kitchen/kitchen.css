@@ -10,8 +10,7 @@ header {
 	justify-content: space-between;
 	align-items: center;
 	padding: 16px;
-	background-color: #000000;
-	color: #D3D3D3;
+
 }
 h1, h2 { display: inline-block; margin: 0px; }
 header span { display: inline-block; }

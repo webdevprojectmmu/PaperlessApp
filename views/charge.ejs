@@ -1,0 +1,21 @@
+<%- include("particals/head")%>
+<%- include("particals/nav")%>
+<%- include("particals/script")%>
+<h1>Total: £<%= (parseInt(charge.amount) / 100).toFixed(2) %></h1>
+<script>
+
+var count = 6;
+function redirectClient(){var numTi = document.getElementById("numTi");if(count > 0){count--;
+numTi.innerHTML = "Redirect in "+count+" seconds.";
+setTimeout("redirectClient()", 1000);
+}else{
+window.location.href = "/orders";
+}
+}
+</script>
+<h3>
+<span id="numTi">
+        <script type="text/javascript">redirectClient();
+</script>
+</span>
+</h3>

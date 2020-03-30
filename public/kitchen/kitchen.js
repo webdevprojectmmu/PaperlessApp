@@ -1,7 +1,7 @@
 let connURL = window.location.host;
 const socket = io(connURL);
 socket.on('connect', function() {
-	//console.log(socket.id);
+	console.log(socket.id);
 });
 
 // incoming orders from the controller

@@ -1,0 +1,21 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#billNav" aria-controls="billNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="billNav">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/orders/report">Report</a></li>
+            <li class="nav-item"><a class="nav-link" href="/orders">Orders</a></li>
+            <li class="nav-item"> <div id="profile"  class="nav-link" style=".nav-link:hover{color: rgba(255,255,255,.5);}"></div></li>
+        </ul>
+        <form action="/orders/logout" method="get" class="form-inline my-2 my-md-0 float-right">
+            <button class="btn btn-light" type="submit">Logout</button>
+        </form>
+        <li class="navbar-nav"><a class="nav-link" >Hi, <%= user.name %> ID:<%= user.staff_id%></a></li>
+
+
+
+    </div>
+
+</nav>

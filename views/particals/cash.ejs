@@ -1,0 +1,10 @@
+
+
+    <form action="/billing/charge/cash/<%=order[0].order_id%>" method="post">
+        <input type="hidden" value="<%= order.order_id%>" name="orderID">
+        <input type="hidden" value="<%= order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity},  ((20/ 100) * (order[0].items.reduce(function (a, b) {return a + b.cost*b.order_items.quantity}, 0)))) %>" name="total">
+        <input type="text" value="" id="addDiscounts" name="addDiscounts">
+
+        <button class="btn-lg btn-primary" id="cashNow" >Cash</button>
+
+    </form>

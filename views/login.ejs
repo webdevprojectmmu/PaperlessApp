@@ -1,0 +1,44 @@
+<html>
+<%- include("particals/head")%>
+<body>
+<%- include("particals/nav")%>
+
+
+
+<div class="container text-center">
+    <div class="row text-center">
+
+<form action="/orders/login" method="post" id="login-form" class="form-group col-md-12">
+    <h2>Login</h2>
+    <p>Username</p>
+    <input type="text" class="form-control col-xs-4" name="username" id="login-form-user"/>
+    <br>
+    <p>Password</p>
+    <input type="password" class="form-control col-xs-4" name="password" id="login-form-pass">
+    <br>
+    <button type="submit" class="btn btn-primary" id="login-form-button">Submit</button>
+</form>
+<br>
+<br>
+    </div>
+    <%if(login === true){%>
+        Press this link to return to parent directory <a href="/orders">Orders</a> or wait for redirect<script>
+            var count = 6;
+            function redirectClient(){
+                var numTi = document.getElementById("numTi");
+                if(count > 0){
+                    count--;
+                    numTi.innerHTML = "Redirect in "+count+" seconds.";
+                    setTimeout("redirectClient()", 1000);
+                }else{
+                    window.location.href = "/orders";
+                }
+            }
+        </script> <span id="numTi"><script type="text/javascript">redirectClient();</script></span>;
+
+    <%} else{}%>
+</div>
+
+</body>
+
+</html>

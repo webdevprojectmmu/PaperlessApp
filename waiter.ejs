@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Waiter View</title>
+	<link rel='stylesheet' href='../stylesheets/style.css' />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+	<script>
+
+		let tr = document.getElementsByTagName('tr');
+
+		// executed when item is clicked on in add items menu
+		function addItem(item) {
+			if(document.body.contains(document.getElementById(item.item_id))){
+				console.log("exists");
+			}
+			else {
+				console.log(item.item_id);
+				$("table").append("<tr id=\"" + item.item_id + "\"> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\" min=\"1\"></td>"
+					+ "<td><button type=\"button\" class=\"btn btn-secondary\" onclick=\"removeItem(" + item.item_id + ")\">Remove</button></td></tr>");
+			}
+		}
+
+		function removeItem(id) {
+			console.log(id);
+			$("#" + id).remove();
+			//document.getElementById(id).deleteRow();
+		}
+
+		// creates POST request when submit button is clicked
+		function submit() {
+			console.log("submit");
+			let staff_id = document.querySelector("#billNav > li > a").innerHTML;
+			staff_id = staff_id.replace(/\D/g, '');
+			let order = [{staff_id: staff_id , table_num: document.querySelector("body > div > table > tbody > tr:nth-child(1) > th > input[type=number]").value}];
+			
+	
+			for(let i = 3; i <= tr.length; i++) {
+				order.push( {
+					item_id: document.querySelector("body > div > table > tbody > tr:nth-child(" + i + ") > td:nth-child(1)").innerHTML,
+					quantity: document.querySelector("body > div > table > tbody > tr:nth-child(" + i + ") > td:nth-child(4) > input[type=number]").value
+				});
+			}
+
+			console.log(order);
+			fetch('/waiter', {
+				method: 'POST',
+  				headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify(order),
+		})
+		.then((response) => response.json())
+		.then((order) => {
+			console.log('Success:', order);
+		})
+		.catch((error) => {
+			console.error('Error:', error);
+		});
+		}
+		
+		// filters items in add items menu
+		function itemSearch() {
+			let input, filter, ul, li, a, i, txtValue;
+			input = document.getElementById('search');
+			filter = input.value.toUpperCase();
+			ul = document.getElementById("itemList");
+			li = ul.getElementsByTagName('li');
+			  
+  			// loop through list items and hide those that don't match the search query
+  			for (i = 0; i < li.length; i++) {
+				a = li[i].getElementsByTagName("div")[0];
+				txtValue = a.textContent || a.innerText;
+				if (txtValue.toUpperCase().indexOf(filter) > -1) {
+					li[i].style.display = "";
+				} 
+				else {
+					li[i].style.display = "none";
+				}
+			}
+		}
+		
+	</script>
+
+
+</head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark">
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#billNav" aria-controls="billNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<div class="collapse navbar-collapse" id="billNav">
+		<ul class="navbar-nav mr-auto">
+			<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+			<li class="nav-item"><a class="nav-link" href="/waiter">Waiter</a></li>
+
+		</ul>
+		<form action="/waiter/logout" method="get" class="form-inline my-2 my-md-0 float-right">
+			<button class="btn btn-light" type="submit">Logout</button>
+		</form>
+		<li class="navbar-nav"><a class="nav-link" >Hi, <%= user.name %> ID:<%= user.staff_id%></a></li>
+
+
+	</div>
+
+</nav>
+<div class="container text-center">
+<br>
+	<h1>Waiter</h1>
+<br>
+
+
+<table class="table">
+	<tr>
+		<th>Table Number <input type="number" value="1" min="1"></th>
+	</tr>
+	<tr class="thead-dark">
+		<th>Menu ID</th>
+		<th>Item</th>
+		<th>Item Notes</th>
+		<th>Quantity</th>
+	</tr>
+	<!--
+	<tr>
+		<td>101</td>
+		<td>Chicken fried rice</td>
+		<td>No rice</td>
+		<td>2</td>
+	</tr>
+		<tr>
+		<td>301</td>
+		<td>Pepsi</td>
+		<td></td>
+		<td>1</td>
+	</tr>
+	-->
+</table>
+<br>
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+	+ more items	
+</button>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+	  <div class="modal-content">
+		<div class="modal-header">
+		  <h5 class="modal-title" id="exampleModalLabel">Add item</h5>
+		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		  </button>
+		</div>
+		<div class="modal-body">
+			<!-- Search form -->
+			<input type="text" id="search" onkeyup="itemSearch()" placeholder="Search" aria-label="Search">
+			<ul id="itemList">
+				<% for(var i = 0; i < item.length; i++) {%>
+					<li><div class="item" onclick="addItem(<%= JSON.stringify(item[i]) %>)"><%= item[i].name + " £" + (item[i].cost / 100).toFixed(2) %></div></li>
+				<%}%>
+			</ul>
+		</div>
+		<div class="modal-footer">
+		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		</div>
+	  </div>
+	</div>
+  </div>
+<br>
+
+	<label for="notes"><strong>Notes:</strong></label>
+	<textarea id="notes" class="form-control" rows="3"></textarea>
+<br>
+<button type="button" class="btn btn-primary" onclick="submit()">
+	Submit
+</button>
+</div>
+
+</body>
+
+</html>

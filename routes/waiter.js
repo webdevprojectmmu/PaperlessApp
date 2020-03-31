@@ -1,5 +1,7 @@
 var express = require('express');
 var router = express.Router();
+var io = require('socket.io');
+
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');
 const Billing = sequelize.import("../model/billing");
@@ -7,6 +9,7 @@ const OrderItems = sequelize.import("../model/order_item");
 const Order = sequelize.import("../model/order");
 const Staff = sequelize.import("../model/staff");
 const Item = sequelize.import("../model/item");
+const Category = sequelize.import("../model/category");
 const Payment = sequelize.import("../model/payment");
 const BillPayments = sequelize.import("../model/bill_payments");
 const CookedOrders = sequelize.import("../model/cooked_orders");
@@ -17,6 +20,9 @@ Staff.belongsTo(Order,{foreignKey:"staff_id", foreignKeyConstraint: true})
 
 Order.belongsToMany(Item,{foreignKey:"order_id", foreignKeyConstraint: true,through:OrderItems})
 Item.belongsToMany(Order,{foreignKey: "item_id", foreignKeyConstraint: true,through:OrderItems})
+
+Item.hasOne(Category, {foreignKey:"category_id", foreignKeyConstraint: true});
+Category.belongsTo(Item, {foreignKey:"category_id", foreignKeyConstraint: true});
 
 Billing.hasOne(Order,{foreignKey:"order_id", foreignKeyConstraint: true})
 Order.belongsTo(Billing,{foreignKey:"order_id", foreignKeyConstraint: true})
@@ -137,15 +143,39 @@ router.post('/', async function(req, res, next) {
     let order = req.body;
     console.log(order);
 
-    const theOrder = await Order.create(order[0]);
+    let theOrder = await Order.create(order[0]);
     console.log(theOrder instanceof Order); // true
     console.log(theOrder.toJSON());
 
+    let kitchenOrderItems = Array();
+
     for(let i = 1; i < order.length; i++) {
-        const theItems = await OrderItems.create({ order_id: theOrder.order_id, item_id: order[i].item_id, quantity: order[i].quantity });
+        let theItems = await OrderItems.create({ order_id: theOrder.order_id, item_id: order[i].item_id, quantity: order[i].quantity });
         console.log(theItems instanceof OrderItems); // true
         console.log(theItems.toJSON());
+
+        //get data from the item proper to push to kitchen
+        let gotItem = await Item.findOne({where: {item_id: theItems.item_id} });
+        console.log("got item: " + JSON.stringify(gotItem));
+        kitchenOrderItems.push({
+            num: "" + gotItem.category_id + gotItem.item_id, 
+            name: gotItem.name, 
+            qty: theItems.quantity
+        });
     }
+
+    //construct the main kitchen vie object
+    let kitchenOrder = {
+        key: theOrder.order_id,
+        table: theOrder.table_num,
+        time: theOrder.order_made.valueOf(),
+        items: kitchenOrderItems
+    };
+
+    //push it to the kitchen view.
+    console.log(JSON.stringify(kitchenOrder));
+    //return the kitchen order back to the client page
+    res.send({ok: true, kitchen: kitchenOrder});
 
 });
 

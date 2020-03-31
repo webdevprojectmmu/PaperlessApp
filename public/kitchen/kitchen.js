@@ -150,10 +150,15 @@ function bindButtons(orders) {
  * @returns String
  */
 function prettyTime(timestamp) {
+	//timestamp = new Date();
+	//timestamp.setTime(time);
 	timestamp = Math.round(timestamp / 1000);
 	let h = (Math.floor((timestamp / 3600) % 24) < 10 ? "0" : "") + Math.floor((timestamp / 3600) % 24);
 	let m = (Math.floor((timestamp / 60) % 60) < 10 ? "0" : "") + Math.floor((timestamp / 60) % 60);
 	let s = (timestamp % 60 < 10 ? "0" : "") + timestamp % 60;
+	/*let h = timestamp.getHours();
+	let m = timestamp.getMinutes();
+	let s = timestamp.getSeconds();*/
 
 	return h + ":" + m + ":" + s;
 }

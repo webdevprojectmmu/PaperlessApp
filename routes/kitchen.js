@@ -1,6 +1,6 @@
 var express = require('express');
-var router = express.Router()
-var io = require("socket.io")
+var router = express.Router();
+var io = require("socket.io");
 
 const Sequelize = require("sequelize");
 const sequelize = new Sequelize('mysql://'+process.env.DBNAME+':'+process.env.DBPASSWORD+'@'+process.env.DBURL+':'+process.env.DBPORT+'/'+process.env.DATABASE+'');

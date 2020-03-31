@@ -9,11 +9,16 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="../../socket.io/socket.io.js"></script>
 
 	<script>
+		let connURL = window.location.host;
+		const socket = io(connURL);
+		socket.on('connect', function() {
+			console.log(socket.id);
+		});
 
-		let tr = document.getElementsByTagName('tr');
-
+		
 		// executed when item is clicked on in add items menu
 		function addItem(item) {
 			if(document.body.contains(document.getElementById(item.item_id))){
@@ -23,26 +28,27 @@
 				console.log(item.item_id);
 				$("table").append("<tr id=\"" + item.item_id + "\"> <td>" + item.item_id + "</td><td>" + item.name + "</td> <td><input type=\"text\"></td> <td><input type=\"number\" value=\"1\" min=\"1\"></td>"
 					+ "<td><button type=\"button\" class=\"btn btn-secondary\" onclick=\"removeItem(" + item.item_id + ")\">Remove</button></td></tr>");
+				}
 			}
-		}
-
-		function removeItem(id) {
-			console.log(id);
+			
+			function removeItem(id) {
+				console.log(id);
 			$("#" + id).remove();
 			//document.getElementById(id).deleteRow();
 		}
-
+		
 		// creates POST request when submit button is clicked
 		function submit() {
 			console.log("submit");
 			
-			let order = [{staff_id: 1, table_num: document.querySelector("body > table > tbody > tr:nth-child(1) > th > input[type=number]").value}];
+			let order = [{staff_id: 1, table_num: document.querySelector("#tablenum").value, order_made: Date.now()}];
 			
-	
+			
+			let tr = document.getElementsByTagName('tr');
 			for(let i = 3; i <= tr.length; i++) {
 				order.push( {
-					item_id: document.querySelector("body > table > tbody > tr:nth-child(" + i + ") > td:nth-child(1)").innerHTML,
-					quantity: document.querySelector("body > table > tbody > tr:nth-child(" + i + ") > td:nth-child(4) > input[type=number]").value
+					item_id: document.querySelector("body > div > table > tbody > tr:nth-child(" + i + ") > td:nth-child(1)").innerHTML,
+					quantity: document.querySelector("body > div > table > tbody > tr:nth-child(" + i + ") > td:nth-child(4) > input[type=number]").value
 				});
 			}
 
@@ -51,12 +57,13 @@
 				method: 'POST',
   				headers: {
 				'Content-Type': 'application/json',
-			},
-			body: JSON.stringify(order),
-		})
+				},
+				body: JSON.stringify(order),
+			})
 		.then((response) => response.json())
-		.then((order) => {
-			console.log('Success:', order);
+		.then((result) => {
+			console.log('Success:', result);
+			socket.emit('push order', result.kitchen);
 		})
 		.catch((error) => {
 			console.error('Error:', error);
@@ -117,7 +124,7 @@
 
 <table class="table">
 	<tr>
-		<th>Table Number <input type="number" value="1" min="1"></th>
+		<th>Table Number <input id="tablenum" type="number" value="1" min="1"></th>
 	</tr>
 	<tr class="thead-dark">
 		<th>Menu ID</th>

@@ -8,7 +8,7 @@ module.exports = function(sequelize,DataType) {
     },
     time_cooked:{
         type: DataType.DATE(3),
-        defaultValue: Date.now()
+        defaultValue: DataType.NOW
     }
 },{
         freezeTableName: true,

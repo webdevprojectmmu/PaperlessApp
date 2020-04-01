@@ -12,7 +12,7 @@ module.exports = function(sequelize,DataType) {
     },
     time_complete:{
         type: DataType.DATE(3),
-        defaultValue: Date.now()
+        defaultValue: DataType.NOW
     },
     total:{
         type: DataType.INTEGER.UNSIGNED

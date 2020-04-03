@@ -44,7 +44,29 @@
     <button id="print" onclick="window.print();" class="btn-primary btn-lg">Print</button>
 
 
-    <%- include("particals/script")%>
+    <script>
+
+
+
+
+       function removePage() {
+           const print = document.getElementById("print")
+
+           print.style.display = "none"
+
+
+
+       }
+
+       function showPage() {
+           const print = document.getElementById("print")
+
+           print.style.display = "inline"
+
+       }
+
+
+   </script>
 </div>
 </body>
 </html>

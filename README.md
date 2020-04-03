@@ -65,8 +65,11 @@ Username: 1
 Password: 1
 
 Card Number: 4242 4242 4242 4242
+
 E-mail: any valid email
+
 CVC: any 3 numbers
+
 Expiry Date: after current date
 
 

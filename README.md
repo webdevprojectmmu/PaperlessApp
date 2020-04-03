@@ -21,12 +21,17 @@
 
 Ryan
 
+Check v1-Ryan for all implmentation that is not in the master branch
+
+
 - Counter
 - Role based authentication system
 - Web Wireframes
 - Models and route design and implementation
 - Stripe integration
 - Bootstrapping all views
+
+all Ryan's work is signed with RL
 
 James
 
@@ -58,6 +63,12 @@ Password: d
 Username: 1
 
 Password: 1
+
+Card Number: 4242 4242 4242 4242
+E-mail: any valid email
+CVC: any 3 numbers
+Expiry Date: after current date
+
 
 **Admin**
 

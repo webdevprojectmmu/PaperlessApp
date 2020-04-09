@@ -72,6 +72,8 @@ CVC: any 3 numbers
 
 Expiry Date: after current date
 
+Discount Code: 6UsM3uUv
+
 
 **Admin**
 
